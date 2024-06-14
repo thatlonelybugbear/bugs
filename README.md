@@ -5,7 +5,7 @@ A small module for Foundry and Dnd5e which contains scripts that thislonelybugbe
 
 The ones included can at any point be altered, based on functionality absorbed/fixed/removed from relevant modules or the system.
 
-The initial commit hooks on preCreateActiveEffect and preUpdateActiveEffect, in order to add the proper `MidiQOL flags` to the system's core status effects for:
+The initial commit hooks on `preCreateActiveEffect` and `preUpdateActiveEffect`, in order to add the proper `MidiQOL flags` to the system's core status effects for:
 - `blinded`,
 - `dodging`,
 - `encumbered`: Needs the system's setting for `Encumbrance Tracking` set to `Variant (encumbered & heavily encumbered),
