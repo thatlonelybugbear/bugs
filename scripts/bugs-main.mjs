@@ -2,21 +2,50 @@ const statusEffects = {};
 statusEffects[staticID('blinded')] = {
 	changes: [
 		{
-			key: `flags.midi-qol.disadvantage.attack.all`,
+			key: 'flags.midi-qol.disadvantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.grants.advantage.attack.all`,
+			key: 'flags.midi-qol.grants.advantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
+		},
+	],
+};
+statusEffects[staticID('dodging')] = {
+	changes: [
+		{
+			key: 'flags.midi-qol.grants.disadvantage.attack.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value:
+				'target.canSee && !["incapacitated","grappled","paralyzed","petrified","restrained","stunned","unconscious"].some(el=>workflow.targets.first()?.actor.statuses.has(el)) && workflow.targets.first()?.actor.system.attributes.exhaustion !== 5' ,
+		},
+	],
+};
+statusEffects[staticID('encumbered')] = {
+	changes: [
+		{
+			key: 'flags.midi-qol.disadvantage.ability.check.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: 'fromUuidSync(targetUuid).actor.statuses.has("exceedingCarryingCapacity") || fromUuidSync(targetUuid).actor.statuses.has("heavilyEncumbered")',
+		},
+		{
+			key: 'flags.midi-qol.disadvantage.ability.save.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: 'fromUuidSync(targetUuid).actor.statuses.has("exceedingCarryingCapacity") || fromUuidSync(targetUuid).actor.statuses.has("heavilyEncumbered")',
+		},
+		{
+			key: 'flags.midi-qol.disadvantage.attack.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: 'fromUuidSync(tokenUuid).actor.statuses.has("exceedingCarryingCapacity") || fromUuidSync(tokenUuid).actor.statuses.has("heavilyEncumbered")',
 		},
 	],
 };
 statusEffects[staticID('exhaustion')] = {
 	changes: [
 		{
-			key: `flags.midi-qol.disadvantage.ability.check.all`,
+			key: 'flags.midi-qol.disadvantage.ability.check.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
@@ -30,7 +59,7 @@ statusEffects[staticID('exhaustion')] = {
 statusEffects[staticID('exhaustion2')] = {
 	changes: [
 		{
-			key: `flags.midi-qol.disadvantage.ability.check.all`,
+			key: 'flags.midi-qol.disadvantage.ability.check.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
@@ -44,7 +73,7 @@ statusEffects[staticID('exhaustion2')] = {
 statusEffects[staticID('exhaustion3')] = {
 	changes: [
 		{
-			key: `flags.midi-qol.disadvantage.ability.check.all`,
+			key: 'flags.midi-qol.disadvantage.ability.check.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
@@ -54,12 +83,12 @@ statusEffects[staticID('exhaustion3')] = {
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.disadvantage.attack.all`,
+			key: 'flags.midi-qol.disadvantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.disadvantage.ability.save.all`,
+			key: 'flags.midi-qol.disadvantage.ability.save.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
@@ -68,7 +97,7 @@ statusEffects[staticID('exhaustion3')] = {
 statusEffects[staticID('exhaustion4')] = {
 	changes: [
 		{
-			key: `flags.midi-qol.disadvantage.ability.check.all`,
+			key: 'flags.midi-qol.disadvantage.ability.check.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
@@ -78,12 +107,12 @@ statusEffects[staticID('exhaustion4')] = {
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.disadvantage.attack.all`,
+			key: 'flags.midi-qol.disadvantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.disadvantage.ability.save.all`,
+			key: 'flags.midi-qol.disadvantage.ability.save.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
@@ -92,7 +121,7 @@ statusEffects[staticID('exhaustion4')] = {
 statusEffects[staticID('exhaustion5')] = {
 	changes: [
 		{
-			key: `flags.midi-qol.disadvantage.ability.check.all`,
+			key: 'flags.midi-qol.disadvantage.ability.check.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
@@ -102,12 +131,12 @@ statusEffects[staticID('exhaustion5')] = {
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.disadvantage.attack.all`,
+			key: 'flags.midi-qol.disadvantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.disadvantage.ability.save.all`,
+			key: 'flags.midi-qol.disadvantage.ability.save.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
@@ -116,17 +145,18 @@ statusEffects[staticID('exhaustion5')] = {
 statusEffects[staticID('frightened')] = {
 	changes: [
 		{
-			key: `flags.midi-qol.disadvantage.attack.all`,
+			key: 'flags.midi-qol.disadvantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.disadvantage.ability.check.all`,
+			key: 'flags.midi-qol.disadvantage.ability.check.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 	],
 };
+/*
 statusEffects[staticID('grappled')] = {
 	changes: [
 		{
@@ -137,15 +167,30 @@ statusEffects[staticID('grappled')] = {
 		},
 	],
 };
+*/
+statusEffects[staticID('heavilyEncumbered')] = {
+	changes: [
+		{
+			key: 'flags.midi-qol.disadvantage.ability.check.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: 1,
+		},
+		{
+			key: 'flags.midi-qol.disadvantage.attack.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: 1,
+		},
+	],
+};
 statusEffects[staticID('invisible')] = {
 	changes: [
 		{
-			key: `flags.midi-qol.advantage.attack.all`,
+			key: 'flags.midi-qol.advantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.grants.disadvantage.attack.all`,
+			key: 'flags.midi-qol.grants.disadvantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
@@ -154,47 +199,41 @@ statusEffects[staticID('invisible')] = {
 statusEffects[staticID('paralyzed')] = {
 	changes: [
 		{
-			key: `flags.midi-qol.fail.ability.save.dex`,
+			key: 'flags.midi-qol.fail.ability.save.dex',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.fail.ability.save.str`,
+			key: 'flags.midi-qol.fail.ability.save.str',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.grants.advantage.attack.all`,
+			key: 'flags.midi-qol.grants.advantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.grants.critical.range`,
+			key: 'flags.midi-qol.grants.critical.range',
 			mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
 			value: '5',
-		},
-		{
-			key: 'system.attributes.movement.all',
-			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: '0',
-			priority: 25,
 		},
 	],
 };
 statusEffects[staticID('petrified')] = {
 	changes: [
 		{
-			key: `flags.midi-qol.grants.advantage.attack.all`,
+			key: 'flags.midi-qol.grants.advantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.fail.ability.save.dex`,
+			key: 'flags.midi-qol.fail.ability.save.dex',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.fail.ability.save.str`,
+			key: 'flags.midi-qol.fail.ability.save.str',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
@@ -213,23 +252,17 @@ statusEffects[staticID('petrified')] = {
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: 'magical',
 		},
-		{
-			key: 'system.attributes.movement.all',
-			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: '0',
-			priority: 25,
-		},
 	],
 };
 statusEffects[staticID('poisoned')] = {
 	changes: [
 		{
-			key: `flags.midi-qol.disadvantage.attack.all`,
+			key: 'flags.midi-qol.disadvantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.disadvantage.ability.check.all`,
+			key: 'flags.midi-qol.disadvantage.ability.check.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
@@ -238,32 +271,22 @@ statusEffects[staticID('poisoned')] = {
 statusEffects[staticID('prone')] = {
 	changes: [
 		{
-			key: `flags.midi-qol.grants.advantage.attack.mwak`,
+			key: 'flags.midi-qol.grants.advantage.attack.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: 'getDistance(fromUuidSync(tokenUuid),workflow.targets.first()) <= 5',
+		},
+		{
+			key: 'flags.midi-qol.grants.disadvantage.attack.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: 'getDistance(fromUuidSync(tokenUuid),workflow.targets.first()) > 5',
+		},
+		{
+			key: 'flags.midi-qol.disadvantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.grants.advantage.attack.msak`,
-			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: '1',
-		},
-		{
-			key: `flags.midi-qol.grants.disadvantage.attack.rwak`,
-			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: '1',
-		},
-		{
-			key: `flags.midi-qol.grants.disadvantage.attack.rsak`,
-			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: '1',
-		},
-		{
-			key: `flags.midi-qol.disadvantage.attack.all`,
-			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: '1',
-		},
-		{
-			key: 'system.attributes.movement.all',
+			key: 'system.attributes.movement.walk',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '*0.5',
 			priority: 25,
@@ -273,42 +296,45 @@ statusEffects[staticID('prone')] = {
 statusEffects[staticID('restrained')] = {
 	changes: [
 		{
-			key: `flags.midi-qol.disadvantage.ability.save.dex`,
+			key: 'flags.midi-qol.disadvantage.ability.save.dex',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.disadvantage.attack.all`,
+			key: 'flags.midi-qol.disadvantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.grants.advantage.attack.all`,
+			key: 'flags.midi-qol.grants.advantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
+	],
+};
+statusEffects[staticID('silenced')] = {
+	changes: [
 		{
-			key: 'system.attributes.movement.all',
+			key: 'flags.midi-qol.fail.spell.vocal',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: '0',
-			priority: 25,
+			value: 'fromUuidSync(tokenUuid)?.actor.appliedEffects.some(e=>e.name == "Subtle Spell") ? 1 : 0',
 		},
 	],
 };
 statusEffects[staticID('stunned')] = {
 	changes: [
 		{
-			key: `flags.midi-qol.fail.ability.save.dex`,
+			key: 'flags.midi-qol.fail.ability.save.dex',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.fail.ability.save.str`,
+			key: 'flags.midi-qol.fail.ability.save.str',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.grants.advantage.attack.all`,
+			key: 'flags.midi-qol.grants.advantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
@@ -317,30 +343,24 @@ statusEffects[staticID('stunned')] = {
 statusEffects[staticID('unconscious')] = {
 	changes: [
 		{
-			key: `flags.midi-qol.fail.ability.save.dex`,
+			key: 'flags.midi-qol.fail.ability.save.dex',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.fail.ability.save.str`,
+			key: 'flags.midi-qol.fail.ability.save.str',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.grants.advantage.attack.all`,
+			key: 'flags.midi-qol.grants.advantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
 		{
-			key: `flags.midi-qol.grants.critical.range`,
+			key: 'flags.midi-qol.grants.critical.range',
 			mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
 			value: '5',
-		},
-		{
-			key: 'system.attributes.movement.all',
-			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: '0',
-			priority: 25,
 		},
 	],
 };
