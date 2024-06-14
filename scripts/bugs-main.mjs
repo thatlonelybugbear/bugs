@@ -317,7 +317,8 @@ statusEffects[staticID('silenced')] = {
 		{
 			key: 'flags.midi-qol.fail.spell.vocal',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: 'fromUuidSync(tokenUuid)?.actor.appliedEffects.some(e=>e.name == "Subtle Spell") ? 1 : 0',
+			value: 1,
+			priority: 0,
 		},
 	],
 };
