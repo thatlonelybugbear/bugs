@@ -28,7 +28,13 @@
                     "verified": "3.2.1"
                 }
             }
-        ] 
+        ],
+        "requires": [
+            {
+                "id": "midi-qol",
+                "type": "module"
+            }
+        ]
     },
     "bugs": "https://github.com/thatlonelybugbear/bugs/issues",
     "flags": { "allowBugReporter": true },
