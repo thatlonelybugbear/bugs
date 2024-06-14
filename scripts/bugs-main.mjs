@@ -367,7 +367,7 @@ Hooks.on('preUpdateActiveEffect', (ae, updates) => {
 
 Hooks.on('preCreateActiveEffect', (ae, aedata) => {
 	if (
-		updates.flags?.dnd5e?.exhaustionLevel &&
+		aedata.flags?.dnd5e?.exhaustionLevel &&
 		game.modules.get('rest-recovery')?.active &&
 		game.settings.get('rest-recovery', 'one-dnd-exhaustion') &&
 		game.settings.get('rest-recovery', 'automate-exhaustion')
