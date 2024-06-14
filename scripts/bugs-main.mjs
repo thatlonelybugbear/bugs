@@ -168,20 +168,6 @@ statusEffects[staticID('grappled')] = {
 	],
 };
 */
-statusEffects[staticID('heavilyEncumbered')] = {
-	changes: [
-		{
-			key: 'flags.midi-qol.disadvantage.ability.check.all',
-			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: 1,
-		},
-		{
-			key: 'flags.midi-qol.disadvantage.attack.all',
-			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: 1,
-		},
-	],
-};
 statusEffects[staticID('invisible')] = {
 	changes: [
 		{
@@ -317,8 +303,7 @@ statusEffects[staticID('silenced')] = {
 		{
 			key: 'flags.midi-qol.fail.spell.vocal',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: 1,
-			priority: 0,
+			value: 'fromUuidSync(tokenUuid)?.actor.appliedEffects.some(e=>e.name == "Subtle Spell") ? 1 : 0',
 		},
 	],
 };
