@@ -1,0 +1,380 @@
+const statusEffects = {};
+statusEffects[staticID('blinded')] = {
+	changes: [
+		{
+			key: `flags.midi-qol.disadvantage.attack.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.grants.advantage.attack.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+	],
+};
+statusEffects[staticID('exhaustion')] = {
+	changes: [
+		{
+			key: `flags.midi-qol.disadvantage.ability.check.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: 'flags.dnd5e.initiativeDisadv',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+	],
+};
+statusEffects[staticID('exhaustion2')] = {
+	changes: [
+		{
+			key: `flags.midi-qol.disadvantage.ability.check.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: 'flags.dnd5e.initiativeDisadv',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+	],
+};
+statusEffects[staticID('exhaustion3')] = {
+	changes: [
+		{
+			key: `flags.midi-qol.disadvantage.ability.check.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: 'flags.dnd5e.initiativeDisadv',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.disadvantage.attack.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.disadvantage.ability.save.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+	],
+};
+statusEffects[staticID('exhaustion4')] = {
+	changes: [
+		{
+			key: `flags.midi-qol.disadvantage.ability.check.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: 'flags.dnd5e.initiativeDisadv',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.disadvantage.attack.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.disadvantage.ability.save.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+	],
+};
+statusEffects[staticID('exhaustion5')] = {
+	changes: [
+		{
+			key: `flags.midi-qol.disadvantage.ability.check.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: 'flags.dnd5e.initiativeDisadv',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.disadvantage.attack.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.disadvantage.ability.save.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+	],
+};
+statusEffects[staticID('frightened')] = {
+	changes: [
+		{
+			key: `flags.midi-qol.disadvantage.attack.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.disadvantage.ability.check.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+	],
+};
+statusEffects[staticID('grappled')] = {
+	changes: [
+		{
+			key: 'system.attributes.movement.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '0',
+			priority: 25,
+		},
+	],
+};
+statusEffects[staticID('invisible')] = {
+	changes: [
+		{
+			key: `flags.midi-qol.advantage.attack.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.grants.disadvantage.attack.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+	],
+};
+statusEffects[staticID('paralyzed')] = {
+	changes: [
+		{
+			key: `flags.midi-qol.fail.ability.save.dex`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.fail.ability.save.str`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.grants.advantage.attack.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.grants.critical.range`,
+			mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+			value: '5',
+		},
+		{
+			key: 'system.attributes.movement.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '0',
+			priority: 25,
+		},
+	],
+};
+statusEffects[staticID('petrified')] = {
+	changes: [
+		{
+			key: `flags.midi-qol.grants.advantage.attack.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.fail.ability.save.dex`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.fail.ability.save.str`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: 'system.traits.di.value',
+			mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+			value: 'poison',
+		},
+		{
+			key: 'system.traits.dr.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: 'physical',
+		},
+		{
+			key: 'system.traits.dr.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: 'magical',
+		},
+		{
+			key: 'system.attributes.movement.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '0',
+			priority: 25,
+		},
+	],
+};
+statusEffects[staticID('poisoned')] = {
+	changes: [
+		{
+			key: `flags.midi-qol.disadvantage.attack.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.disadvantage.ability.check.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+	],
+};
+statusEffects[staticID('prone')] = {
+	changes: [
+		{
+			key: `flags.midi-qol.grants.advantage.attack.mwak`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.grants.advantage.attack.msak`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.grants.disadvantage.attack.rwak`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.grants.disadvantage.attack.rsak`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.disadvantage.attack.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: 'system.attributes.movement.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '*0.5',
+			priority: 25,
+		},
+	],
+};
+statusEffects[staticID('restrained')] = {
+	changes: [
+		{
+			key: `flags.midi-qol.disadvantage.ability.save.dex`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.disadvantage.attack.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.grants.advantage.attack.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: 'system.attributes.movement.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '0',
+			priority: 25,
+		},
+	],
+};
+statusEffects[staticID('stunned')] = {
+	changes: [
+		{
+			key: `flags.midi-qol.fail.ability.save.dex`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.fail.ability.save.str`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.grants.advantage.attack.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+	],
+};
+statusEffects[staticID('unconscious')] = {
+	changes: [
+		{
+			key: `flags.midi-qol.fail.ability.save.dex`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.fail.ability.save.str`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.grants.advantage.attack.all`,
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '1',
+		},
+		{
+			key: `flags.midi-qol.grants.critical.range`,
+			mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+			value: '5',
+		},
+		{
+			key: 'system.attributes.movement.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: '0',
+			priority: 25,
+		},
+	],
+};
+
+function getChanges(id) {
+	return statusEffects[id]?.changes;
+}
+
+function staticID(id) {
+	id = `dnd5e${id}`;
+	if (id.length >= 16) return id.substring(0, 16);
+	return id.padEnd(16, '0');
+}
+
+Hooks.on('preUpdateActiveEffect', (ae, updates) => {
+	if (
+		updates.flags?.dnd5e?.exhaustionLevel &&
+		(!game.modules.get('rest-recovery')?.active || !game.settings.get('rest-recovery', 'one-dnd-exhaustion') || !game.settings.get('rest-recovery', 'automate-exhaustion'))
+	) {
+		const exhaustionLevel = updates.flags.dnd5e.exhaustionLevel === 1 ? '' : updates.flags.dnd5e.exhaustionLevel;
+		updates.changes = getChanges(staticID(`exhaustion${exhaustionLevel}`));
+	}
+});
+
+Hooks.on('preCreateActiveEffect', (ae, aedata) => {
+	if (
+		updates.flags?.dnd5e?.exhaustionLevel &&
+		game.modules.get('rest-recovery')?.active &&
+		game.settings.get('rest-recovery', 'one-dnd-exhaustion') &&
+		game.settings.get('rest-recovery', 'automate-exhaustion')
+	)
+		return true;
+	if (getChanges(ae.id)?.length) {
+		const changes = getChanges(ae.id);
+		ae.updateSource({ changes });
+	}
+});
