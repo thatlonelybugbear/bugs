@@ -8,7 +8,7 @@ The ones included can at any point be altered, based on functionality absorbed/f
 The initial commit hooks on `preCreateActiveEffect` and `preUpdateActiveEffect`, in order to add the proper `MidiQOL flags` to the system's core status effects for:
 - `blinded`,
 - `dodging`,
-- `encumbered`: Needs the system's setting for `Encumbrance Tracking` set to `Variant (encumbered & heavily encumbered),
+- `encumbered`: Needs the system's setting for `Encumbrance Tracking` set to `Variant (encumbered & heavily encumbered)`,
 - `exhaustion (1-5)`,
 - `frightened`,
 - `invisible`,
