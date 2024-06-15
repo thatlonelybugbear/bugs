@@ -370,7 +370,7 @@ function shouldProceed(check) {
 }
 
 Hooks.on('preUpdateActiveEffect', (ae, updates) => {
-	if (shouldProceed(updates) {
+	if (shouldProceed(updates)) {
 		const exhaustionLevel = updates.flags.dnd5e.exhaustionLevel === 1 ? '' : updates.flags.dnd5e.exhaustionLevel;
 		updates.changes = getChanges(staticID(`exhaustion${exhaustionLevel}`));
 	}
