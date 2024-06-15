@@ -364,7 +364,7 @@ function staticID(id) {
 function shouldProceed(check) {
 	return (
 		check.flags?.dnd5e?.exhaustionLevel &&
-		!game.modules.get('alternative-exhaustion')?.active &&
+		!game.modules.get('alternative-exhaustion-5e')?.active &&
 		(!game.modules.get('rest-recovery')?.active || !game.settings.get('rest-recovery', 'one-dnd-exhaustion') || !game.settings.get('rest-recovery', 'automate-exhaustion'))
 	);
 }
