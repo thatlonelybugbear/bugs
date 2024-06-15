@@ -1,3 +1,6 @@
+## v1.0.1
+- When Alternative Exhaustion 5e module is enabled, it will take care of Exhaustion effects, so no MidiQOL flags are being added in that case.
+- 
 ## v1.0.0
 - Initial release.
 - Adds on all relevant system's status effects MidiQOL flags.
