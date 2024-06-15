@@ -24,9 +24,6 @@ The initial commit hooks on `preCreateActiveEffect` and `preUpdateActiveEffect`,
 ## Compatibility notes.
 - `DFreds Convenient Effects`: For compatibility make sure that you set the `Modify Status Effects` to `NONE`. As a side effect DFreds CE will be usable on dnd5e 3.x and Foundry 11/12.
 - `Rest Recovery`: Provides exhaustion automation (when that setting is enabled it will take priority; NEEDS to reload Foundry if you change any relevant settings in RR).
-- `Condition Lab Trigger`: For compatibility you need to make sure to force the default system's status effects, instead of the ones altered by CLT. To do that you need a World script which follows.
-```js
-Hooks.once('ready', () => {
-  CONFIG.statusEffects = CONFIG.defaultStatusEffects;
-});
-```
+- `Condition Lab Trigger`: For compatibility it is recommended to:
+  - In `Condition Lab` settings menu, select the `Other/import mapping type` and move all you custom created conditions in there,
+  - Uncheck the Remove Default Status Effects to get the default system's `statusEffects`.
