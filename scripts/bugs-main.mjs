@@ -361,25 +361,23 @@ function staticID(id) {
 	return id.padEnd(16, '0');
 }
 
-Hooks.on('preUpdateActiveEffect', (ae, updates) => {
-	if (
-		updates.flags?.dnd5e?.exhaustionLevel &&
+function shouldProceed(check) {
+	return (
+		check.flags?.dnd5e?.exhaustionLevel &&
+		!game.modules.get('alternative-exhaustion')?.active &&
 		(!game.modules.get('rest-recovery')?.active || !game.settings.get('rest-recovery', 'one-dnd-exhaustion') || !game.settings.get('rest-recovery', 'automate-exhaustion'))
-	) {
+	);
+}
+
+Hooks.on('preUpdateActiveEffect', (ae, updates) => {
+	if (shouldProceed(updates) {
 		const exhaustionLevel = updates.flags.dnd5e.exhaustionLevel === 1 ? '' : updates.flags.dnd5e.exhaustionLevel;
 		updates.changes = getChanges(staticID(`exhaustion${exhaustionLevel}`));
 	}
 });
 
 Hooks.on('preCreateActiveEffect', (ae, aedata) => {
-	if (
-		aedata.flags?.dnd5e?.exhaustionLevel &&
-		game.modules.get('rest-recovery')?.active &&
-		game.settings.get('rest-recovery', 'one-dnd-exhaustion') &&
-		game.settings.get('rest-recovery', 'automate-exhaustion')
-	)
-		return true;
-	if (getChanges(ae.id)?.length) {
+	if (shouldProceed(aedata) && getChanges(ae.id)?.length) {
 		const changes = getChanges(ae.id);
 		ae.updateSource({ changes });
 	}
