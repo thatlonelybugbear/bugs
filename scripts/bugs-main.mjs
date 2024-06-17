@@ -363,9 +363,11 @@ function staticID(id) {
 
 function shouldProceed(check) {
 	return (
-		check.flags?.dnd5e?.exhaustionLevel &&
-		!game.modules.get('alternative-exhaustion-5e')?.active &&
-		(!game.modules.get('rest-recovery')?.active || !game.settings.get('rest-recovery', 'one-dnd-exhaustion'))
+		!check.flags?.dnd5e?.exhaustionLevel || (
+			check.flags?.dnd5e?.exhaustionLevel	&&
+			!game.modules.get('alternative-exhaustion-5e')?.active &&
+			(!game.modules.get('rest-recovery')?.active || !game.settings.get('rest-recovery', 'one-dnd-exhaustion'))
+		)
 	);
 }
 
