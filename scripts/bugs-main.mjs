@@ -19,7 +19,7 @@ statusEffects[staticID('dodging')] = {
 			key: 'flags.midi-qol.grants.disadvantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value:
-				'target.canSee && !["incapacitated","grappled","paralyzed","petrified","restrained","stunned","unconscious"].some(el=>workflow.targets.first()?.actor.statuses.has(el)) && workflow.targets.first()?.actor.system.attributes.exhaustion !== 5' ,
+				'target.canSee && !["incapacitated","grappled","paralyzed","petrified","restrained","stunned","unconscious"].some(el=>workflow.targets.first()?.actor.statuses.has(el)) && workflow.targets.first()?.actor.system.attributes.exhaustion !== 5',
 		},
 	],
 };
@@ -370,16 +370,34 @@ function shouldProceed(check, hook) {
 	);
 }
 
-Hooks.on('preUpdateActiveEffect', (ae, updates) => {
-	if (shouldProceed(updates, 'update')) {
-		const exhaustionLevel = updates.flags.dnd5e.exhaustionLevel === 1 ? '' : updates.flags.dnd5e.exhaustionLevel;
-		updates.changes = getChanges(staticID(`exhaustion${exhaustionLevel}`));
-	}
-});
-
-Hooks.on('preCreateActiveEffect', (ae, aedata) => {
-	if (shouldProceed(aedata, 'create') && getChanges(ae.id)?.length) {
-		const changes = getChanges(ae.id);
-		ae.updateSource({ changes });
-	}
+Hooks.once('midi-qol.midiReady', () => {
+	Hooks.on('preUpdateActiveEffect', (ae, updates) => {
+		if (shouldProceed(updates, 'update')) {
+			const exhaustionLevel = updates.flags.dnd5e.exhaustionLevel === 1 ? '' : updates.flags.dnd5e.exhaustionLevel;
+			updates.changes = getChanges(staticID(`exhaustion${exhaustionLevel}`));
+		}
+	});
+	Hooks.on('preCreateActiveEffect', (ae, aedata) => {
+		if (shouldProceed(aedata, 'create') && getChanges(ae.id)?.length) {
+			const changes = getChanges(ae.id);
+			ae.updateSource({ changes });
+		}
+	});
+	Hooks.on('midi-qol.RollComplete', async (workflow) => {
+		const { actor, item } = workflow || {};
+		if (!item) return true;
+		const parent = actor ?? item.actor;
+		const { type, cost } = item.system.activation;
+		if ((type?.includes('reaction') && cost) || (game.combat?.active && game.combat.combatant?.actor !== parent)) {
+			const effectData = {
+				name: 'Reaction Used',
+				img: 'modules/bugs/images/reaction.svg',
+				'flags.dae.specialDuration': ['turnStartSource'],
+				duration: { rounds: 1 },
+				origin: item.uuid,
+				_id: staticID('reaction'),
+			};
+			return ActiveEffect.implementation.create([effectData], { parent });
+		}
+	});
 });
