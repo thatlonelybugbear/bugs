@@ -28,3 +28,6 @@ The initial commit hooks on `preCreateActiveEffect` and `preUpdateActiveEffect`,
   - Uncheck the Remove Default Status Effects to get the default system's `statusEffects`.
 - `Rest Recovery`: Provides exhaustion automation (when that setting is enabled it will take priority; NEEDS to reload Foundry if you change any relevant settings in RR).
 - `Alternative Exhaustion 5e`: If that module is active, it will handle all the exhaustion effects and no MidiQOL flags will be added.
+
+## Special credits.
+- Added `images` used by @DFreds and initially sourced from https://game-icons.net/ (CC-BY licence).
