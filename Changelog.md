@@ -1,6 +1,7 @@
 ## v1.0.3
 - Closes [9](https://github.com/thatlonelybugbear/bugs/issues/9) - Add a reaction used AE and logic to apply when needed.
 - Bump compatibility to v12.328 Foundry.
+- Added `images` used by [DFreds](https://github.com/DFreds) in [DFreds Convenient Effects](https://github.com/DFreds/dfreds-convenient-effects) and initially sourced from https://game-icons.net/ (CC-BY licence).
 
 ## v1.0.2
 - Fix for `shouldProceed()` not doing what is supposed to do...
