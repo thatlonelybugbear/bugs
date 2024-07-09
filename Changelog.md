@@ -1,4 +1,4 @@
-## v1.0.4
+## v1.0.5
 - Closes [#12](https://github.com/thatlonelybugbear/bugs/issues/12) - v11 `ActiveEffect5e#icon` vs v12 `ActiveEffect5e#img`
 
 ## v1.0.3
