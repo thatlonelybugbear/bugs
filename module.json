@@ -2,7 +2,7 @@
     "id": "bugs",
     "title": "Bugbear's Scripts",
     "description": "A small module for Foundry and Dnd5e which contains scripts thislonelybugbear finds useful.",
-    "version": "1.0.2.1",
+    "version": "1.0.2.2",
     "authors": [
         {
             "name": "thatlonelybugbear",
@@ -14,7 +14,7 @@
     "compatibility": {
         "minimum": "11",
         "maximum": "12",
-        "verified": "12.327"
+        "verified": "12.328"
     },
     "esmodules": ["scripts/bugs-main.mjs"],
     "relationships": {
@@ -37,10 +37,9 @@
         ]
     },
     "bugs": "https://github.com/thatlonelybugbear/bugs/issues",
-    "flags": { "allowBugReporter": true },
     "url": "https://github.com/thatlonelybugbear/bugs",
     "license": "https://raw.githubusercontent.com/thatlonelybugbear/bugs/main/LICENSE",
     "manifest": "https://github.com/thatlonelybugbear/bugs/releases/latest/download/module.json",
-    "download": "https://github.com/thatlonelybugbear/bugs/releases/download/v1.0.2.1/module.zip",
+    "download": "https://github.com/thatlonelybugbear/bugs/releases/download/v1.0.2.2/module.zip",
     "changelog": "https://raw.githubusercontent.com/thatlonelybugbear/bugs/main/Changelog.md"
 }
