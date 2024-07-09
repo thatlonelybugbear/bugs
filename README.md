@@ -30,4 +30,4 @@ The initial commit hooks on `preCreateActiveEffect` and `preUpdateActiveEffect`,
 - `Alternative Exhaustion 5e`: If that module is active, it will handle all the exhaustion effects and no MidiQOL flags will be added.
 
 ## Special credits.
-- Added `images` used by @DFreds and initially sourced from https://game-icons.net/ (CC-BY licence).
+- Added `images` used by [DFreds](https://github.com/DFreds) and initially sourced from https://game-icons.net/ (CC-BY licence).
