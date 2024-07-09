@@ -1,3 +1,6 @@
+## v1.0.4
+- Closes [#12](https://github.com/thatlonelybugbear/bugs/issues/12) - v11 `ActiveEffect5e#icon` vs v12 `ActiveEffect5e#img`
+
 ## v1.0.3
 - Closes [9](https://github.com/thatlonelybugbear/bugs/issues/9) - Add a reaction used AE and logic to apply when needed.
 - Bump compatibility to v12.328 Foundry.

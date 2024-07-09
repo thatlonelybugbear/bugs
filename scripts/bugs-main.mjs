@@ -370,6 +370,10 @@ function shouldProceed(check, hook) {
 	);
 }
 
+function gameVersion (ver) {
+	return ver ? game.version == ver : game.version
+}
+
 Hooks.once('midi-qol.midiReady', () => {
 	Hooks.on('preUpdateActiveEffect', (ae, updates) => {
 		if (shouldProceed(updates, 'update')) {
@@ -389,9 +393,10 @@ Hooks.once('midi-qol.midiReady', () => {
 		const parent = actor ?? item.actor;
 		const { type, cost } = item.system.activation;
 		if ((type?.includes('reaction') && cost) || (game.combat?.active && game.combat.combatant?.actor !== parent)) {
+			const imgSource = gameVersion() < 12 ? 'img' : 'icon';
 			const effectData = {
 				name: 'Reaction Used',
-				img: 'modules/bugs/images/reaction.svg',
+				[imgSource]: 'modules/bugs/images/reaction.svg',
 				'flags.dae.specialDuration': ['turnStartSource'],
 				duration: { rounds: 1 },
 				origin: item.uuid,
