@@ -393,7 +393,7 @@ Hooks.once('midi-qol.midiReady', () => {
 		const parent = actor ?? item.actor;
 		const { type, cost } = item.system.activation;
 		if ((type?.includes('reaction') && cost) || (game.combat?.active && game.combat.combatant?.actor !== parent)) {
-			const imgSource = gameVersion() < 12 ? 'img' : 'icon';
+			const imgSource = gameVersion() < 12 ? 'icon' : 'img';
 			const effectData = {
 				name: 'Reaction Used',
 				[imgSource]: 'modules/bugs/images/reaction.svg',
