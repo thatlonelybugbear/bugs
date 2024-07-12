@@ -36,6 +36,20 @@
             }
         ]
     },
+    "languages": [
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "lang/en.json",
+            "flags": {}
+        },
+    ],
+    "flags": {
+        "hotReload": {
+            "extensions": ["json"],
+            "paths": ["lang/en.json"]
+        }
+    },
     "bugs": "https://github.com/thatlonelybugbear/bugs/issues",
     "url": "https://github.com/thatlonelybugbear/bugs",
     "license": "https://raw.githubusercontent.com/thatlonelybugbear/bugs/main/LICENSE",
