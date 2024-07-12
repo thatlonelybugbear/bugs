@@ -1,3 +1,6 @@
+### v1.0.7.1
+- Correct the MidiQOL hook `midi-qol.ready`
+
 ## v1.0.7
 - Added pt-BR translation, thanks @Kharmans
 
