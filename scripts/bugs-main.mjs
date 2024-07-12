@@ -1,3 +1,7 @@
+const MODULE_ID = 'bugs';
+
+const imgSource = gameVersion() < 12 ? 'icon' : 'img';
+
 const statusEffects = {};
 statusEffects[staticID('blinded')] = {
 	changes: [
@@ -350,6 +354,13 @@ statusEffects[staticID('unconscious')] = {
 		},
 	],
 };
+statusEffects[staticID('reaction')] = {
+	[imgSource]: 'modules/bugs/images/reaction.svg',
+	'flags.dae.specialDuration': ['turnStartSource', 'combatEnd'],
+	[`flags.${MODULE_ID}.statusEffect`]: staticID('reaction'),
+	duration: { rounds: 1 },
+	_id: staticID('reaction'),
+};
 
 function getChanges(id) {
 	return statusEffects[id]?.changes;
@@ -387,23 +398,18 @@ Hooks.once('midi-qol.midiReady', () => {
 			ae.updateSource({ changes });
 		}
 	});
-	if (game.modules.get('midi-qol')?.version < '1.14.40.2') {
+	if (game.modules.get('midi-qol')?.version < '11.4.41') {
 		Hooks.on('midi-qol.RollComplete', async (workflow) => {
 			const { actor, item } = workflow || {};
 			if (!item) return true;
 			const parent = actor ?? item.actor;
 			const { type, cost } = item.system.activation;
 			if ((type?.includes('reaction') && cost) || parent.getFlag('midi-qol', 'actions.reaction') || (game.combat?.active && game.combat.combatant?.actor !== parent)) {
-				const imgSource = gameVersion() < 12 ? 'icon' : 'img';
-				const effectData = {
-					name: 'Reaction Used',
-					[imgSource]: 'modules/bugs/images/reaction.svg',
-					'flags.dae.specialDuration': ['turnStartSource', 'combatEnd'],
-					duration: { rounds: 1 },
-					origin: item.uuid,
-					_id: staticID('reaction'),
-				};
-				return ActiveEffect.implementation.create([effectData], { parent });
+				const effectData = statusEffects[staticID('reaction')];
+				effectData.name = game.i18n.localize(`${MODULE_ID}.reactionUsed`);
+				effectData.origin = item.uuid;
+				await parent.effects.get(staticID('reaction'))?.delete();
+				return ActiveEffect.implementation.create([effectData], { parent, keepId: true });
 			}
 		});
 	}
