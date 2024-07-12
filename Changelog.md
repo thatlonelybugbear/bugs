@@ -1,3 +1,6 @@
+## v1.0.7
+- Added pt-BR translation, thanks @Kharmans
+
 ## v1.0.6
 - Closes [#14](https://github.com/thatlonelybugbear/bugs/issues/14) - Reaction used AE should be deleted when Combat ends.
 - Adds a check for MidiQOL version being higher than 11.4.40.1, so that BUGS stops handling Reactions in case that's true (MidiQOL will handle these itself).
