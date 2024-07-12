@@ -385,7 +385,7 @@ function gameVersion (ver) {
 	return ver ? game.version == ver : game.version
 }
 
-Hooks.once('midi-qol.midiReady', () => {
+Hooks.once('midi-qol.ready', () => {
 	Hooks.on('preUpdateActiveEffect', (ae, updates) => {
 		if (shouldProceed(updates, 'update')) {
 			const exhaustionLevel = updates.flags.dnd5e.exhaustionLevel === 1 ? '' : updates.flags.dnd5e.exhaustionLevel;
