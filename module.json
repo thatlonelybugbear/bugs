@@ -42,7 +42,7 @@
             "name": "English",
             "path": "lang/en.json",
             "flags": {}
-        },
+        }
     ],
     "flags": {
         "hotReload": {
