@@ -1,6 +1,6 @@
 ## v1.0.6
 - Closes [#14](https://github.com/thatlonelybugbear/bugs/issues/14) - Reaction used AE should be deleted when Combat ends.
-  - Adds a check for MidiQOL version being higher than 11.4.40.1, so that BUGS stops handling Reactions in case that's true (MidiQOL will handle these itself).
+- Adds a check for MidiQOL version being higher than 11.4.40.1, so that BUGS stops handling Reactions in case that's true (MidiQOL will handle these itself).
 
 ## v1.0.5
 - Closes [#12](https://github.com/thatlonelybugbear/bugs/issues/12) - v11 `ActiveEffect5e#icon` vs v12 `ActiveEffect5e#img`
