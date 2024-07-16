@@ -46,7 +46,7 @@ statusEffects[staticID('encumbered')] = {
 		},
 	],
 };
-statusEffects[staticID('exhaustion')] = {
+statusEffects[staticID('exhaustion1')] = {
 	changes: [
 		{
 			key: 'flags.midi-qol.disadvantage.ability.check.all',
@@ -403,7 +403,7 @@ function gameVersion(ver) {
 Hooks.on('midi-qol.ready', () => {
 	Hooks.on('preUpdateActiveEffect', (ae, updates) => {
 		if (shouldProceed(updates, 'update')) {
-			const exhaustionLevel = updates.flags.dnd5e.exhaustionLevel === 1 ? '' : updates.flags.dnd5e.exhaustionLevel;
+			const exhaustionLevel = updates.flags.dnd5e.exhaustionLevel/* === 1 ? '' : updates.flags.dnd5e.exhaustionLevel*/;
 			updates.changes = getChanges(staticID(`exhaustion${exhaustionLevel}`));
 		}
 	});
@@ -446,8 +446,11 @@ Hooks.on('midi-qol.ready', () => {
 	}, 100);
 });
 function changeDFredsStatusEffects() {
-	console.warn("DFREDS ready hook");
-	for (const {id} of CONFIG.statusEffects) CONFIG.statusEffects.find(e=>e.id === id).id = CONFIG.statusEffects.find(e=>e.id === id).name.toLowerCase();
+	console.warn("DFREDS pre");
+	for (const {name} of CONFIG.statusEffects) {
+		if (statusEffects[staticID(name.toLowerCase)]) 
+			CONFIG.statusEffects.find(e=>e.name === name).id = CONFIG.statusEffects.find(e=>e.name === name).name.toLowerCase();
+	};
 	foundry.utils.mergeObject(CONFIG.statusEffects.find(e=>e.id === 'exhaustion 1'), {id: 'exhaustion'})
 	console.log(CONFIG.statusEffects);
 }
