@@ -443,16 +443,23 @@ Hooks.on('midi-qol.ready', () => {
 					},
 				];
 		}
-		if (aedata.flags?.dnd5e?.exhaustionLevel) {
+		const exhaustionLevel = aedata.flags?.dnd5e?.exhaustionLevel;
+		if (exhaustionLevel) {
 			const eff = actor.appliedEffects.some((e) => e.id.includes('exhaust'));
+			console.log("BUGS exhaustion preCreate", exhaustionLevel, eff)
 			if (eff) {
-				effect.update({ 'flags.dnd5e.exhaustionLevel': aedata.flags.dnd5e.exhaustionLevel });
+				effect.update({ 'flags.dnd5e.exhaustionLevel': exhaustionLevel });
 				return false;
-			} else updateSource = statusEffects[staticID('exhaustion')];
+			} else {
+				updateSource = statusEffects[staticID('exhaustion')];
+				if (!aedata._id) updateSource._id = staticID('exhaustion');
+			}
+			console.log("BUGS exhaustion preCreate", {updateSource})
 		}
 		if (!aedata.origin) updateSource.origin = actor.uuid;
+		console.log(aedata._id, foundry.utils.getProperty(ae.flags, 'dfreds-convenient-effects.isConvenient'))
 		if (!aedata._id && foundry.utils.getProperty(ae.flags, 'dfreds-convenient-effects.isConvenient')) {
-			updateSource._id = staticID(aedata.name.toLowerCase());
+			if (!exhaustionLevel) updateSource._id = staticID(aedata.name.toLowerCase());
 			shouldContinue = false;
 		}
 		if (!shouldContinue) foundry.utils.setProperty(updateSource, 'flags.bugs.hasInterfered', true);
