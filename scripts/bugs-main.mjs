@@ -3,6 +3,8 @@ const MODULE_ID = 'bugs';
 const imgSource = gameVersion() < 12 ? 'icon' : 'img';
 
 const statusEffects = {};
+statusEffects[staticID('dead')] = { };
+statusEffects[staticID('bleeding')] = { };
 statusEffects[staticID('blinded')] = {
 	changes: [
 		{
@@ -17,6 +19,12 @@ statusEffects[staticID('blinded')] = {
 		},
 	],
 };
+statusEffects[staticID('burrowing')] = { };
+statusEffects[staticID('charmed')] = { };
+statusEffects[staticID('concentrating')] = { };
+statusEffects[staticID('cursed')] = { };
+statusEffects[staticID('deafened')] = { };
+statusEffects[staticID('diseased')] = { };
 statusEffects[staticID('dodging')] = {
 	changes: [
 		{
@@ -46,6 +54,8 @@ statusEffects[staticID('encumbered')] = {
 		},
 	],
 };
+statusEffects[staticID('ethereal')] = { };
+statusEffects[staticID('exceedingCarryingCapacity')] = { };
 statusEffects[staticID('exhaustion1')] = {
 	changes: [
 		{
@@ -146,6 +156,7 @@ statusEffects[staticID('exhaustion5')] = {
 		},
 	],
 };
+statusEffects[staticID('flying')] = { };
 statusEffects[staticID('frightened')] = {
 	changes: [
 		{
@@ -160,18 +171,11 @@ statusEffects[staticID('frightened')] = {
 		},
 	],
 };
-/*
-statusEffects[staticID('grappled')] = {
-	changes: [
-		{
-			key: 'system.attributes.movement.all',
-			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: '0',
-			priority: 25,
-		},
-	],
-};
-*/
+statusEffects[staticID('grappled')] = { };
+statusEffects[staticID('heavilyEncumbered')] = { };
+statusEffects[staticID('hiding')] = { };
+statusEffects[staticID('hovering')] = { };
+statusEffects[staticID('incapacitated')] = { };
 statusEffects[staticID('invisible')] = {
 	changes: [
 		{
@@ -186,6 +190,7 @@ statusEffects[staticID('invisible')] = {
 		},
 	],
 };
+statusEffects[staticID('marked')] = { };
 statusEffects[staticID('paralyzed')] = {
 	changes: [
 		{
@@ -311,6 +316,8 @@ statusEffects[staticID('silenced')] = {
 		},
 	],
 };
+statusEffects[staticID('sleeping')] = { };
+statusEffects[staticID('stable')] = { };
 statusEffects[staticID('stunned')] = {
 	changes: [
 		{
@@ -338,9 +345,9 @@ statusEffects[staticID('surprised')] = {
 			value: 'dae.eval(combat?.turn <= combat.turns.findIndex(i=>i.tokenId == @tokenId))',
 		}
 	],*/
-	flags: { dae: { specialDuration: ['turnEnd'] } },
-	duration: { seconds: 7 },
+	flags: { dae: { specialDuration: ['turnEndSource'] } },
 };
+statusEffects[staticID('transformed')] = { };
 statusEffects[staticID('unconscious')] = {
 	changes: [
 		{
@@ -458,11 +465,7 @@ function changeDFredsStatusEffects() {
 					.toLowerCase();
 		}
 	}
-	/*foundry.utils.mergeObject(
-		CONFIG.statusEffects.find((e) => e.id === 'exhaustion 1'),
-		{ id: 'exhaustion' }
-	);*/
-	console.log(CONFIG.statusEffects);
+	console.warn("BUGS replaced the statusEffects", CONFIG.statusEffects);
 }
 function changeStatusEffects() {
 	const goOn = Hooks.call('BUGS.preStatusEffectsChange', this);
