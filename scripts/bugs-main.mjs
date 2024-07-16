@@ -399,7 +399,7 @@ function shouldProceed(check, hook) {
 		);
 	}
 	if (hook == 'create') {
-		return !check.flags?.dnd5e?.exhaustionLevel || [staticID('silenced'), staticID('surprised')].includes(check._id) || !check.origin;
+		return !check.flags?.bugs?.hasInterfered || !check.flags?.dnd5e?.exhaustionLevel || [staticID('silenced'), staticID('surprised')].includes(check._id) || !check.origin;
 	}
 }
 
@@ -441,8 +441,9 @@ Hooks.on('midi-qol.ready', () => {
 			updateSource._id = staticID(aedata.name.toLowerCase())
 			shouldContinue = false;
 		}
+		if (!shouldContinue) foundry.utils.setProperty(updateSource.flags, 'bugs.hasInterfered', true);
 		ae.updateSource(updateSource);
-		if (abort) ActiveEffect.implementation.create(aedata, { parent: actor, keepId: true });
+		if (!shouldContinue) ActiveEffect.implementation.create(ae, { parent: actor, keepId: true });
 		return shouldContinue;
 	});
 
