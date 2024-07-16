@@ -441,8 +441,8 @@ Hooks.on('midi-qol.ready', () => {
 
 	const dfredsID = 'dfreds-convenient-effects';
 	if (game.modules.get(dfredsID)?.active && game.settings.get(dfredsID, 'modifyStatusEffects') == 'replace') {
-		statusEffects.staticID('flanked') = { };   //Expect error: making sure these will get an _id, as Status effects with implicit statuses must have a static _id
-		statusEffects.staticID('inaudible') = { };
+		statusEffects[staticID('flanked')] = { };   //Expect error: making sure these will get an _id, as Status effects with implicit statuses must have a static _id
+		statusEffects[staticID('inaudible')] = { };
 		changeDFredsStatusEffects();
 	}
 
