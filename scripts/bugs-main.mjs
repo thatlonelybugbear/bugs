@@ -3,8 +3,8 @@ const MODULE_ID = 'bugs';
 const imgSource = gameVersion() < 12 ? 'icon' : 'img';
 
 const statusEffects = {};
-statusEffects[staticID('dead')] = { };
-statusEffects[staticID('bleeding')] = { };
+statusEffects[staticID('dead')] = {};
+statusEffects[staticID('bleeding')] = {};
 statusEffects[staticID('blinded')] = {
 	changes: [
 		{
@@ -19,12 +19,12 @@ statusEffects[staticID('blinded')] = {
 		},
 	],
 };
-statusEffects[staticID('burrowing')] = { };
-statusEffects[staticID('charmed')] = { };
-statusEffects[staticID('concentrating')] = { };
-statusEffects[staticID('cursed')] = { };
-statusEffects[staticID('deafened')] = { };
-statusEffects[staticID('diseased')] = { };
+statusEffects[staticID('burrowing')] = {};
+statusEffects[staticID('charmed')] = {};
+statusEffects[staticID('concentrating')] = {};
+statusEffects[staticID('cursed')] = {};
+statusEffects[staticID('deafened')] = {};
+statusEffects[staticID('diseased')] = {};
 statusEffects[staticID('dodging')] = {
 	changes: [
 		{
@@ -54,8 +54,8 @@ statusEffects[staticID('encumbered')] = {
 		},
 	],
 };
-statusEffects[staticID('ethereal')] = { };
-statusEffects[staticID('exceedingCarryingCapacity')] = { };
+statusEffects[staticID('ethereal')] = {};
+statusEffects[staticID('exceedingCarryingCapacity')] = {};
 statusEffects[staticID('exhaustion1')] = {
 	changes: [
 		{
@@ -156,7 +156,7 @@ statusEffects[staticID('exhaustion5')] = {
 		},
 	],
 };
-statusEffects[staticID('flying')] = { };
+statusEffects[staticID('flying')] = {};
 statusEffects[staticID('frightened')] = {
 	changes: [
 		{
@@ -171,11 +171,11 @@ statusEffects[staticID('frightened')] = {
 		},
 	],
 };
-statusEffects[staticID('grappled')] = { };
-statusEffects[staticID('heavilyEncumbered')] = { };
-statusEffects[staticID('hiding')] = { };
-statusEffects[staticID('hovering')] = { };
-statusEffects[staticID('incapacitated')] = { };
+statusEffects[staticID('grappled')] = {};
+statusEffects[staticID('heavilyEncumbered')] = {};
+statusEffects[staticID('hiding')] = {};
+statusEffects[staticID('hovering')] = {};
+statusEffects[staticID('incapacitated')] = {};
 statusEffects[staticID('invisible')] = {
 	changes: [
 		{
@@ -190,7 +190,7 @@ statusEffects[staticID('invisible')] = {
 		},
 	],
 };
-statusEffects[staticID('marked')] = { };
+statusEffects[staticID('marked')] = {};
 statusEffects[staticID('paralyzed')] = {
 	changes: [
 		{
@@ -316,8 +316,8 @@ statusEffects[staticID('silenced')] = {
 		},
 	],
 };
-statusEffects[staticID('sleeping')] = { };
-statusEffects[staticID('stable')] = { };
+statusEffects[staticID('sleeping')] = {};
+statusEffects[staticID('stable')] = {};
 statusEffects[staticID('stunned')] = {
 	changes: [
 		{
@@ -347,7 +347,7 @@ statusEffects[staticID('surprised')] = {
 	],*/
 	flags: { dae: { specialDuration: ['turnEndSource'] } },
 };
-statusEffects[staticID('transformed')] = { };
+statusEffects[staticID('transformed')] = {};
 statusEffects[staticID('unconscious')] = {
 	changes: [
 		{
@@ -453,19 +453,22 @@ Hooks.on('midi-qol.ready', () => {
 });
 function changeDFredsStatusEffects() {
 	console.warn('DFREDS pre');
-	for (let { name } of CONFIG.statusEffects) {
-		if (!name.includes('Exhaustion') && statusEffects[staticID(name.toLowerCase())])
-			CONFIG.statusEffects.find((e) => e.name === name).id = CONFIG.statusEffects.find((e) => e.name === name).name.toLowerCase();
+	for (const { name } of CONFIG.statusEffects) {
+		const effect = CONFIG.statusEffects.find((e) => e.name === name);
+		if (!name.includes('Exhaustion') && statusEffects[staticID(name.toLowerCase())]) foundy.utils.mergeObject(effect, { id: effect.name.toLowerCase(), _id: staticID(name.toLowerCase()) });
 		else if (name.includes('Exhaustion')) {
-			if (name == 'Exhaustion 1') CONFIG.statusEffects.find((e) => e.name === name).id = 'exhaustion';
-			else
-				CONFIG.statusEffects.find((e) => e.name === name).id = CONFIG.statusEffects
-					.find((e) => e.name === name)
-					.name.replace(' ', '')
-					.toLowerCase();
+			if (name == 'Exhaustion 1')
+				foundry.utils.mergeObject(
+					CONFIG.statusEffects.find((e) => e.name === name),
+					{ id: 'exhaustion', _id: staticID('exhaustion') }
+				);
+			else {
+				const forID = effect.name.replace(' ', '').toLowerCase();
+				foundry.utils.mergeObject(effect, { id: forID, _id: staticID(forID) });
+			}
 		}
 	}
-	console.warn("BUGS replaced the statusEffects", CONFIG.statusEffects);
+	console.warn('BUGS replaced the statusEffects', CONFIG.statusEffects);
 }
 function changeStatusEffects() {
 	const goOn = Hooks.call('BUGS.preStatusEffectsChange', this);
