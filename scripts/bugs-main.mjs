@@ -307,7 +307,7 @@ statusEffects[staticID('silenced')] = {
 		{
 			key: 'flags.midi-qol.fail.spell.vocal',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: 'fromUuidSync(tokenUuid)?.actor.appliedEffects.some(e=>e.name == "Subtle Spell") ? 1 : 0',
+			value: '1',
 		},
 	],
 };
@@ -329,6 +329,17 @@ statusEffects[staticID('stunned')] = {
 			value: '1',
 		},
 	],
+};
+statusEffects[staticID('surprised')] = {
+	/*changes: [
+		{
+			key: 'flags.midi-qol.actions.reaction',
+			mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+			value: 'dae.eval(combat?.turn <= combat.turns.findIndex(i=>i.tokenId == @tokenId))',
+		}
+	],*/
+	flags: { dae: { specialDuration: ['turnEnd'] } },
+	duration: { seconds: 7 },
 };
 statusEffects[staticID('unconscious')] = {
 	changes: [
@@ -359,7 +370,7 @@ statusEffects[staticID('reaction')] = {
 	'flags.dae.specialDuration': ['turnStartSource', 'combatEnd'],
 	[`flags.${MODULE_ID}.statusEffect`]: staticID('reaction'),
 	duration: { rounds: 1 },
-	_id: staticID('reaction'),
+	//_id: staticID('reaction'),
 };
 
 function getChanges(id) {
@@ -373,19 +384,23 @@ function staticID(id) {
 }
 
 function shouldProceed(check, hook) {
-	return (
-		(!check.flags?.dnd5e?.exhaustionLevel && hook == 'create') ||
-		(check.flags?.dnd5e?.exhaustionLevel &&
+	if (hook == 'update') {
+		return (
+			check.flags?.dnd5e?.exhaustionLevel &&
 			!game.modules.get('alternative-exhaustion-5e')?.active &&
-			(!game.modules.get('rest-recovery')?.active || !game.settings.get('rest-recovery', 'one-dnd-exhaustion')))
-	);
+			(!game.modules.get('rest-recovery')?.active || !game.settings.get('rest-recovery', 'one-dnd-exhaustion'))
+		);
+	}
+	if (hook == 'create') {
+		return !check.flags?.dnd5e?.exhaustionLevel || [staticID('silenced'), staticID('surprised')].includes(check._id) || !check.origin;
+	}
 }
 
-function gameVersion (ver) {
-	return ver ? game.version == ver : game.version
+function gameVersion(ver) {
+	return ver ? game.version == ver : game.version;
 }
 
-Hooks.once('midi-qol.ready', () => {
+Hooks.on('midi-qol.ready', () => {
 	Hooks.on('preUpdateActiveEffect', (ae, updates) => {
 		if (shouldProceed(updates, 'update')) {
 			const exhaustionLevel = updates.flags.dnd5e.exhaustionLevel === 1 ? '' : updates.flags.dnd5e.exhaustionLevel;
@@ -393,24 +408,53 @@ Hooks.once('midi-qol.ready', () => {
 		}
 	});
 	Hooks.on('preCreateActiveEffect', (ae, aedata) => {
-		if (shouldProceed(aedata, 'create') && getChanges(ae.id)?.length) {
-			const changes = getChanges(ae.id);
-			ae.updateSource({ changes });
+		if (!shouldProceed(aedata, 'create')) return true;
+		const actor = ae.parent;
+		const { combat } = game;
+		const updateSource = {};
+		if (aedata._id == staticID('silenced') && ae.parent.items.getName('Subtle Spell')) updateSource.changes = [];
+		if (aedata._id == staticID('surprised')) {
+			const actorId = parent.id;
+			const tokenId = parent.token?.id ?? canvas.tokens.placeables.find((tok) => tok.actor.inCombat && tok.actor.id == actor.id)?.id;
+			console.log(tokenId);
+			console.log(combat?.turns?.find((turn) => turn.tokenId == tokenId));
+			console.log(combat?.round, combat?.turn);
+			if (!combat || (combat && tokenId && combat.round <= 1 && combat.turn <= combat.turns.findIndex((turn) => turn.tokenId == tokenId)))
+				updateSource.changes = [
+					{
+						key: 'flags.midi-qol.actions.reaction',
+						mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+						value: true,
+					},
+				];
 		}
+		if (!aedata.origin) updateSource.origin = actor.uuid;
+		ae.updateSource(updateSource);
 	});
-	if (game.modules.get('midi-qol')?.version < '11.4.41') {
-		Hooks.on('midi-qol.RollComplete', async (workflow) => {
-			const { actor, item } = workflow || {};
-			if (!item) return true;
-			const parent = actor ?? item.actor;
-			const { type, cost } = item.system.activation;
-			if ((type?.includes('reaction') && cost) || parent.getFlag('midi-qol', 'actions.reaction') || (game.combat?.active && game.combat.combatant?.actor !== parent)) {
-				const effectData = statusEffects[staticID('reaction')];
-				effectData.name = game.i18n.localize(`${MODULE_ID}.reactionUsed`);
-				effectData.origin = item.uuid;
-				await parent.effects.get(staticID('reaction'))?.delete();
-				return ActiveEffect.implementation.create([effectData], { parent, keepId: true });
-			}
+	globalThis.BUGS = {};
+	for (const { id } of CONFIG.statusEffects) {
+		ActiveEffect.implementation.fromStatusEffect(id, { keepId: true }).then((effect) => {
+			globalThis.BUGS[id] = foundry.utils.mergeObject(effect, statusEffects[staticID(id)]);
 		});
 	}
+	const dfredsID = 'dfreds-convenient-effects';
+	if (game.modules.get(dfredsID)?.active && game.settings.get(dfredsID, 'modifyStatusEffects') == 'replace') {
+		Hooks.on(`${dfredsID}.ready`, () => Hooks.on('BUGS.ready', changeStatusEffects));
+	} else Hooks.on('BUGS.ready', changeStatusEffects);
+	setTimeout(() => {
+		Hooks.callAll('BUGS.ready');
+	}, 100);
 });
+function changeStatusEffects() {
+	const goOn = Hooks.call('BUGS.preStatusEffectsChange', this);
+	if (goOn == false) return true;
+	console.warn('BUGS changing Status Effects');
+	for (const id in BUGS)
+		foundry.utils.mergeObject(
+			CONFIG.statusEffects.find((e) => e.id === id),
+			BUGS[id]
+		);
+	setTimeout(() => {
+		Hooks.callAll('BUGS.postStatusEffectsChange');
+	}, 100);
+}
