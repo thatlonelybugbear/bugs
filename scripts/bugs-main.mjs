@@ -431,23 +431,32 @@ Hooks.on('midi-qol.ready', () => {
 		if (!aedata.origin) updateSource.origin = actor.uuid;
 		ae.updateSource(updateSource);
 	});
+
+
+	const dfredsID = 'dfreds-convenient-effects';
+	if (game.modules.get(dfredsID)?.active && game.settings.get(dfredsID, 'modifyStatusEffects') == 'replace') {
+		Hooks.on(`${dfredsID}.ready`, changeDFredsStatusEffects));
+	}
+		
 	globalThis.BUGS = {};
+	
+	Hooks.on('BUGS.ready', changeStatusEffects);
+	setTimeout(() => {
+		Hooks.callAll('BUGS.ready');
+	}, 100);
+});
+funtion changeDFredsStatusEffects() {
+	for (const {id} of CONFIG.statusEffects) CONFIG.statusEffects.find(e=>e.id === id).id = e.name.toLowerCase();
+	CONFIG.statusEffects.find(e=>e.id === 'exhaustion 1')?.id = 'exhaustion';
+}
+function changeStatusEffects() {
+	const goOn = Hooks.call('BUGS.preStatusEffectsChange', this);
+	if (goOn == false) return true;
 	for (const { id } of CONFIG.statusEffects) {
 		ActiveEffect.implementation.fromStatusEffect(id, { keepId: true }).then((effect) => {
 			globalThis.BUGS[id] = foundry.utils.mergeObject(effect, statusEffects[staticID(id)]);
 		});
 	}
-	const dfredsID = 'dfreds-convenient-effects';
-	if (game.modules.get(dfredsID)?.active && game.settings.get(dfredsID, 'modifyStatusEffects') == 'replace') {
-		Hooks.on(`${dfredsID}.ready`, () => Hooks.on('BUGS.ready', changeStatusEffects));
-	} else Hooks.on('BUGS.ready', changeStatusEffects);
-	setTimeout(() => {
-		Hooks.callAll('BUGS.ready');
-	}, 100);
-});
-function changeStatusEffects() {
-	const goOn = Hooks.call('BUGS.preStatusEffectsChange', this);
-	if (goOn == false) return true;
 	console.warn('BUGS changing Status Effects');
 	for (const id in BUGS)
 		foundry.utils.mergeObject(
