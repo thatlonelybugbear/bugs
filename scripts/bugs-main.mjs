@@ -455,7 +455,7 @@ function changeDFredsStatusEffects() {
 	console.warn('DFREDS pre');
 	for (const { name } of CONFIG.statusEffects) {
 		const effect = CONFIG.statusEffects.find((e) => e.name === name);
-		if (!name.includes('Exhaustion') && statusEffects[staticID(name.toLowerCase())]) foundy.utils.mergeObject(effect, { id: effect.name.toLowerCase(), _id: staticID(name.toLowerCase()) });
+		if (!name.includes('Exhaustion') && statusEffects[staticID(name.toLowerCase())]) foundry.utils.mergeObject(effect, { id: effect.name.toLowerCase(), _id: staticID(name.toLowerCase()) });
 		else if (name.includes('Exhaustion')) {
 			if (name == 'Exhaustion 1')
 				foundry.utils.mergeObject(
