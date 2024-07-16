@@ -435,7 +435,7 @@ Hooks.on('midi-qol.ready', () => {
 
 	const dfredsID = 'dfreds-convenient-effects';
 	if (game.modules.get(dfredsID)?.active && game.settings.get(dfredsID, 'modifyStatusEffects') == 'replace') {
-		Hooks.on(`${dfredsID}.ready`, changeDFredsStatusEffects);
+		changeDFredsStatusEffects();
 	}
 		
 	globalThis.BUGS = {};
