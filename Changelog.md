@@ -1,3 +1,8 @@
+BETA FOR TESTING
+## v1.1.!2
+- Replaces CONFIG.statusEffects and adding MidiQOL relevant flags and changes.
+- Fix for DFreds CE on REPLACE status effects
+
 ### v1.0.7.1
 - Correct the MidiQOL hook `midi-qol.ready`
 
