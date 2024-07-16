@@ -404,7 +404,8 @@ function shouldProceed(check, hook) {
 		);
 	}
 	if (hook == 'create') {
-		if (check.flags?.bugs?.hasInterfered || !statusEffects[staticID(check._id)]) return false;
+		console.log(check)
+		if (check.flags?.bugs?.hasInterfered /*|| !statusEffects[staticID(check._id)]*/) return false;
 		return true;
 		return !check.flags?.bugs?.hasInterfered /*|| !check.flags?.dnd5e?.exhaustionLevel || [staticID('silenced'), staticID('surprised')].includes(check._id) || !check.origin*/;
 	}
@@ -422,6 +423,8 @@ Hooks.on('midi-qol.ready', () => {
 		}
 	});
 	Hooks.on('preCreateActiveEffect', (ae, aedata) => {
+		console.log(aedata)
+		console.log(ae)
 		if (!shouldProceed(aedata, 'create')) return true;
 		let shouldContinue = true;
 		const actor = ae.parent;
@@ -443,7 +446,8 @@ Hooks.on('midi-qol.ready', () => {
 					},
 				];
 		}
-		const exhaustionLevel = aedata.flags?.dnd5e?.exhaustionLevel;
+		const exhaustionLevel = aedata.statuses.includes('exhaustion') && Number(ae.name.split('Exhaustion ')[1]) > 0 ? Number(ae.name.split('Exhaustion ')[1]) : false;
+		console.log(Number(name.split('Exhaustion ')[1]));
 		if (exhaustionLevel) {
 			const eff = actor.appliedEffects.some((e) => e.id.includes('exhaust'));
 			console.log("BUGS exhaustion preCreate", exhaustionLevel, eff)
@@ -451,7 +455,7 @@ Hooks.on('midi-qol.ready', () => {
 				effect.update({ 'flags.dnd5e.exhaustionLevel': exhaustionLevel });
 				return false;
 			} else {
-				updateSource = statusEffects[staticID('exhaustion')];
+				foundry.utils.mergeObject(updateSource, statusEffects[staticID('exhaustion')]);
 				if (!aedata._id) updateSource._id = staticID('exhaustion');
 			}
 			console.log("BUGS exhaustion preCreate", {updateSource})
