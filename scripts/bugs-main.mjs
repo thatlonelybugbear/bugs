@@ -442,7 +442,7 @@ Hooks.on('midi-qol.ready', () => {
 			shouldContinue = false;
 		}
 		ae.updateSource(updateSource);
-		if (abort) await ActiveEffect.implementation.create(aedata, { parent: actor, keepId: true });
+		if (abort) ActiveEffect.implementation.create(aedata, { parent: actor, keepId: true });
 		return shouldContinue;
 	});
 
