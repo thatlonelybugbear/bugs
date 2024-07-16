@@ -458,10 +458,10 @@ function changeDFredsStatusEffects() {
 					.toLowerCase();
 		}
 	}
-	foundry.utils.mergeObject(
+	/*foundry.utils.mergeObject(
 		CONFIG.statusEffects.find((e) => e.id === 'exhaustion 1'),
 		{ id: 'exhaustion' }
-	);
+	);*/
 	console.log(CONFIG.statusEffects);
 }
 function changeStatusEffects() {
