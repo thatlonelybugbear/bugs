@@ -447,8 +447,8 @@ Hooks.on('midi-qol.ready', () => {
 });
 function changeDFredsStatusEffects() {
 	console.warn("DFREDS ready hook");
-	for (const {id} of CONFIG.statusEffects) CONFIG.statusEffects.find(e=>e.id === id).id = e.name.toLowerCase();
-	CONFIG.statusEffects.find(e=>e.id === 'exhaustion 1')?.id = 'exhaustion';
+	for (const {id} of CONFIG.statusEffects) CONFIG.statusEffects.find(e=>e.id === id).id = CONFIG.statusEffects.find(e=>e.id === id).name.toLowerCase();
+	foundry.utils.mergeObject(CONFIG.statusEffects.find(e=>e.id === 'exhaustion 1'), {id: 'exhaustion'})
 	console.log(CONFIG.statusEffects);
 }
 function changeStatusEffects() {
