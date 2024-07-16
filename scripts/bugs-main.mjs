@@ -416,6 +416,7 @@ Hooks.on('midi-qol.ready', () => {
 	});
 	Hooks.on('preCreateActiveEffect', (ae, aedata) => {
 		if (!shouldProceed(aedata, 'create')) return true;
+		let shouldContinue = true;
 		const actor = ae.parent;
 		const { combat } = game;
 		const updateSource = {};
@@ -436,8 +437,13 @@ Hooks.on('midi-qol.ready', () => {
 				];
 		}
 		if (!aedata.origin) updateSource.origin = actor.uuid;
-		if (!aedata._id && foundry.utils.getProperty(ae.flags, 'dfreds-convenient-effects.isConvenient')) updateSource._id = staticID(aedata.name.toLowerCase())
+		if (!aedata._id && foundry.utils.getProperty(ae.flags, 'dfreds-convenient-effects.isConvenient')) {
+			updateSource._id = staticID(aedata.name.toLowerCase())
+			shouldContinue = false;
+		}
 		ae.updateSource(updateSource);
+		if (abort) await ActiveEffect.implementation.create(aedata, { parent: actor, keepId: true });
+		return shouldContinue;
 	});
 
 	const dfredsID = 'dfreds-convenient-effects';
