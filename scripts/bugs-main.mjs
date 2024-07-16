@@ -445,9 +445,11 @@ Hooks.on('midi-qol.ready', () => {
 		Hooks.callAll('BUGS.ready');
 	}, 100);
 });
-funtion changeDFredsStatusEffects() {
+function changeDFredsStatusEffects() {
+	console.warn("DFREDS ready hook");
 	for (const {id} of CONFIG.statusEffects) CONFIG.statusEffects.find(e=>e.id === id).id = e.name.toLowerCase();
 	CONFIG.statusEffects.find(e=>e.id === 'exhaustion 1')?.id = 'exhaustion';
+	console.log(CONFIG.statusEffects);
 }
 function changeStatusEffects() {
 	const goOn = Hooks.call('BUGS.preStatusEffectsChange', this);
