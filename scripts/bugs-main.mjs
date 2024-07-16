@@ -436,6 +436,7 @@ Hooks.on('midi-qol.ready', () => {
 				];
 		}
 		if (!aedata.origin) updateSource.origin = actor.uuid;
+		if (!aedata._source._id && !aedata.name.includes('Convenient Effect')) updateSource._id = staticID(aedata.name.toLowerCase())
 		ae.updateSource(updateSource);
 	});
 
