@@ -69,6 +69,7 @@ statusEffects[staticID('exhaustion1')] = {
 			value: '1',
 		},
 	],
+	flags: { dnd5e: { exhaustionLevel: 1 } },
 };
 statusEffects[staticID('exhaustion2')] = {
 	changes: [
@@ -83,6 +84,7 @@ statusEffects[staticID('exhaustion2')] = {
 			value: '1',
 		},
 	],
+	flags: { dnd5e: { exhaustionLevel: 2 } },
 };
 statusEffects[staticID('exhaustion3')] = {
 	changes: [
@@ -107,6 +109,7 @@ statusEffects[staticID('exhaustion3')] = {
 			value: '1',
 		},
 	],
+	flags: { dnd5e: { exhaustionLevel: 3 } },
 };
 statusEffects[staticID('exhaustion4')] = {
 	changes: [
@@ -131,6 +134,7 @@ statusEffects[staticID('exhaustion4')] = {
 			value: '1',
 		},
 	],
+	flags: { dnd5e: { exhaustionLevel: 4 } },
 };
 statusEffects[staticID('exhaustion5')] = {
 	changes: [
@@ -155,6 +159,7 @@ statusEffects[staticID('exhaustion5')] = {
 			value: '1',
 		},
 	],
+	flags: { dnd5e: { exhaustionLevel: 5 } },
 };
 statusEffects[staticID('flying')] = {};
 statusEffects[staticID('frightened')] = {
@@ -399,7 +404,9 @@ function shouldProceed(check, hook) {
 		);
 	}
 	if (hook == 'create') {
-		return !check.flags?.bugs?.hasInterfered || !check.flags?.dnd5e?.exhaustionLevel || [staticID('silenced'), staticID('surprised')].includes(check._id) || !check.origin;
+		if (check.flags?.bugs?.hasInterfered || !statusEffects[staticID(check._id)]) return false;
+		return true;
+		return !check.flags?.bugs?.hasInterfered /*|| !check.flags?.dnd5e?.exhaustionLevel || [staticID('silenced'), staticID('surprised')].includes(check._id) || !check.origin*/;
 	}
 }
 
@@ -436,12 +443,19 @@ Hooks.on('midi-qol.ready', () => {
 					},
 				];
 		}
+		if (aedata.flags?.dnd5e?.exhaustionLevel) {
+			const eff = actor.appliedEffects.some((e) => e.id.includes('exhaust'));
+			if (eff) {
+				effect.update({ 'flags.dnd5e.exhaustionLevel': aedata.flags.dnd5e.exhaustionLevel });
+				return false;
+			} else updateSource = statusEffects[staticID('exhaustion')];
+		}
 		if (!aedata.origin) updateSource.origin = actor.uuid;
 		if (!aedata._id && foundry.utils.getProperty(ae.flags, 'dfreds-convenient-effects.isConvenient')) {
-			updateSource._id = staticID(aedata.name.toLowerCase())
+			updateSource._id = staticID(aedata.name.toLowerCase());
 			shouldContinue = false;
 		}
-		if (!shouldContinue) foundry.utils.setProperty(updateSource.flags, 'bugs.hasInterfered', true);
+		if (!shouldContinue) foundry.utils.setProperty(updateSource, 'flags.bugs.hasInterfered', true);
 		ae.updateSource(updateSource);
 		if (!shouldContinue) ActiveEffect.implementation.create(ae, { parent: actor, keepId: true });
 		return shouldContinue;
@@ -449,8 +463,8 @@ Hooks.on('midi-qol.ready', () => {
 
 	const dfredsID = 'dfreds-convenient-effects';
 	if (game.modules.get(dfredsID)?.active && game.settings.get(dfredsID, 'modifyStatusEffects') == 'replace') {
-		statusEffects[staticID('flanked')] = { };   //Expect error: making sure these will get an _id, as Status effects with implicit statuses must have a static _id
-		statusEffects[staticID('inaudible')] = { };
+		statusEffects[staticID('flanked')] = {}; //Expect error: making sure these will get an _id, as Status effects with implicit statuses must have a static _id
+		statusEffects[staticID('inaudible')] = {};
 		changeDFredsStatusEffects();
 	}
 
