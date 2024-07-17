@@ -466,8 +466,14 @@ Hooks.on('midi-qol.ready', () => {
 			if (!exhaustionLevel) updateSource._id = staticID(aedata.name.toLowerCase());
 			shouldContinue = false;
 		}
+		console.log(ae.statuses)
+		if (!ae.statuses.has(aedata.name.toLowerCase())) {
+			updateSource.statuses.add(aedata.name.toLowerCase())
+			shouldContinue = false;
+		}
 		if (!shouldContinue) foundry.utils.setProperty(updateSource, 'flags.bugs.hasInterfered', true);
 		ae.updateSource(updateSource);
+		console.log(shouldContinue)
 		if (!shouldContinue) ActiveEffect.implementation.create(ae, { parent: actor, keepId: true });
 		return shouldContinue;
 	});
