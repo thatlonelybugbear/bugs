@@ -1,4 +1,7 @@
-### v1.0.7.1
+## v1.2.0
+- Compatibility bump for Foundry v12.329 and d&d 5e v3.3.0
+
+ ### v1.0.7.1
 - Correct the MidiQOL hook `midi-qol.ready`
 
 ## v1.0.7
