@@ -1,3 +1,6 @@
+## v1.2.1
+- Monkeypatch adding back `reaction` and `bonusaction` status effects when DFreds CE is set to REPLACE and MidiQOL verions higher than 11.4.40.1, until the release that fixes this.
+
 ## v1.2.0
 - Compatibility bump for Foundry v12.329 and d&d 5e v3.3.0
 
