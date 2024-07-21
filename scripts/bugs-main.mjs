@@ -385,6 +385,32 @@ function gameVersion (ver) {
 	return ver ? game.version == ver : game.version
 }
 
+//Monkeypatch, adding back the MidiQOL reaction/bonus action when DFreds is set to REPLACE.
+Hooks.on('dfreds-convenient-effects.ready', () => {
+	if (game.settings.get('dfreds-convenient-effects','modifyStatusEffects') !== 'replace') return true;
+	const midiVersion = game.modules.get('midi-qol')?.version;
+	if (!midiVersion || midiVersion <= '11.4.40.1' || midiVersion > '11.4.42') return true;
+	console.warn('World script fix for MidiQOL reactions, midiVersion:' midiVersion);
+	const imgSource = game.version < 12 ? 'icon' : 'img';
+	const i18n = (string) => game.i18n.localize(string);
+	CONFIG.statusEffects.push({
+		id: 'reaction',
+		_id: staticID('reaction'),
+		name: i18n('midi-qol.reactionUsed'),
+		changes: [{ key: 'flags.midi-qol.actions.reaction', mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: true }],
+		[imgSource]: 'modules/midi-qol/icons/reaction.svg',
+		flags: { dae: { specialDuration: ['turnStart', 'combatEnd', 'shortRest'] } },
+	});
+	CONFIG.statusEffects.push({
+		id: 'bonusaction',
+		_id: staticID('bonusaction'),
+		name: i18n('midi-qol.bonusActionUsed'),
+		changes: [{ key: 'flags.midi-qol.actions.bonus', mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: true }],
+		[imgSource]: 'modules/midi-qol/icons/bonus-action.svg',
+		flags: { dae: { specialDuration: ['turnStart', 'combatEnd', 'shortRest'] } },
+	});
+});
+
 Hooks.once('midi-qol.ready', () => {
 	Hooks.on('preUpdateActiveEffect', (ae, updates) => {
 		if (shouldProceed(updates, 'update')) {
