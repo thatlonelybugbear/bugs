@@ -1,5 +1,5 @@
 ### v1.2.1.1
-- Hotfix, forgotten comma.
+- Hotfix, forgotten comma, thanks @gambit
 
 ## v1.2.1
 - Monkeypatch adding back `reaction` and `bonusaction` status effects when DFreds CE is set to REPLACE and MidiQOL verions higher than 11.4.40.1, until the release that fixes this.
