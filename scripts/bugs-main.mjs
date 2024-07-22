@@ -390,7 +390,7 @@ Hooks.on('dfreds-convenient-effects.ready', () => {
 	if (game.settings.get('dfreds-convenient-effects','modifyStatusEffects') !== 'replace') return true;
 	const midiVersion = game.modules.get('midi-qol')?.version;
 	if (!midiVersion || midiVersion <= '11.4.40.1' || midiVersion > '11.4.42') return true;
-	console.warn('World script fix for MidiQOL reactions, midiVersion:' midiVersion);
+	console.warn('World script fix for MidiQOL reactions, midiVersion:', midiVersion);
 	const imgSource = game.version < 12 ? 'icon' : 'img';
 	const i18n = (string) => game.i18n.localize(string);
 	CONFIG.statusEffects.push({
