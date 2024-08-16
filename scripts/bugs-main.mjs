@@ -474,6 +474,9 @@ function addCEContextMenuChoice (app, [elem]) {
 	})
 };
 
-function addRemoveStatusEffect (...args) {
-	console.log(args)
+function addRemoveStatusEffect (event) {
+	event.preventDefault();
+	const triggeredElement = event.target.closest('li.directory-item.document.flexrow.convenient-effect');
+        const dataEntryId = triggeredElement ? triggeredElement.getAttribute('data-entry-id') : null;
+	console.log('Data Entry ID:', dataEntryId);
 }
