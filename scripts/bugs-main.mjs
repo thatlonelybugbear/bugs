@@ -440,3 +440,40 @@ Hooks.once('midi-qol.ready', () => {
 		});
 	}
 });
+
+Hooks.on('renderConvenientEffectsApp', addCEContextMenuChoice);
+
+function addCEContextMenuChoice (app, [elem]) {
+	const nestedElements = elem.querySelectorAll('#convenient-effects li > ol > li');
+	nestedElements.forEach((element) => {
+		element.addEventListener('contextmenu', function (event) {
+			event.preventDefault();
+			const observer = new MutationObserver((mutations) => {
+				mutations.forEach((mutation) => {
+					if (mutation.addedNodes.length) {
+						mutation.addedNodes.forEach((node) => {
+							if (node.nodeType === 1 && node.matches('nav#context-menu.expand-down')) {
+								const contextMenu = node.querySelector('.context-items');
+								if (contextMenu && !contextMenu.querySelector('.context-item.bugs')) {
+									const newItem = document.createElement('li');
+									newItem.className = 'context-item bugs';
+									newItem.innerHTML = '<i class="fas fa-bug fa-fw"></i>BUGS: Toggle as statusEffect';
+									contextMenu.appendChild(newItem);
+									newItem.addEventListener('click', addRemoveStatusEffect);
+								}
+							}
+						})
+					}
+				})
+			});
+			observer.observe(document.body, {
+			    childList: true,
+			    subtree: true,
+			});
+		})
+	})
+};
+
+function addRemoveStatusEffect (...args) {
+	console.log(args)
+}
