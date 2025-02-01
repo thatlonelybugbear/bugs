@@ -1,3 +1,8 @@
+## v1.4.1
+- Compatibility bump 5e 4.2.2
+- Modern rules changes
+  - Both modern and legacy rules are respected.
+
 ### v1.2.1.1
 - Hotfix, forgotten comma, thanks @gambit
 
