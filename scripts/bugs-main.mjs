@@ -1,6 +1,7 @@
 const MODULE_ID = 'bugs';
 
 const imgSource = gameVersion() < 12 ? 'icon' : 'img';
+const modernRules = game.settings.get('dnd5e', 'rulesVersion') === 'modern';
 
 const statusEffects = {};
 statusEffects[staticID('blinded')] = {
@@ -8,12 +9,26 @@ statusEffects[staticID('blinded')] = {
 		{
 			key: 'flags.midi-qol.disadvantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: '1',
+			value: '!canSee(tokenUuid, targetUuid)',
 		},
 		{
 			key: 'flags.midi-qol.grants.advantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: '1',
+			value: '!canSee(targetUuid, tokenUuid)',
+		},
+	],
+};
+statusEffects[staticID('charmed')] = {
+	changes: [
+		{
+			key: 'flags.midi-qol.grants.advantage.ability.check.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: 'nonWorkflowTargetedToken === effectTokenUuid',
+		},
+		{
+			key: 'flags.midi-qol.advantage.fail.all',
+			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+			value: 'hasDamage',
 		},
 	],
 };
@@ -22,8 +37,7 @@ statusEffects[staticID('dodging')] = {
 		{
 			key: 'flags.midi-qol.grants.disadvantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value:
-				'target.canSee && !["incapacitated","grappled","paralyzed","petrified","restrained","stunned","unconscious"].some(el=>workflow.targets.first()?.actor.statuses.has(el)) && workflow.targets.first()?.actor.system.attributes.exhaustion !== 5',
+			value: 'target?.canSee && !["incapacitated","grappled","paralyzed","petrified","restrained","stunned","unconscious"].some(el=>target?.statuses[el])) && target?.attributes.exhaustion !== 5',
 		},
 	],
 };
@@ -32,17 +46,17 @@ statusEffects[staticID('encumbered')] = {
 		{
 			key: 'flags.midi-qol.disadvantage.ability.check.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: 'fromUuidSync(targetUuid).actor.statuses.has("exceedingCarryingCapacity") || fromUuidSync(targetUuid).actor.statuses.has("heavilyEncumbered")',
+			value: 'statuses.exceedingCarryingCapacity || statuses.heavilyEncumbered',
 		},
 		{
 			key: 'flags.midi-qol.disadvantage.ability.save.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: 'fromUuidSync(targetUuid).actor.statuses.has("exceedingCarryingCapacity") || fromUuidSync(targetUuid).actor.statuses.has("heavilyEncumbered")',
+			value: 'statuses.exceedingCarryingCapacity || statuses.heavilyEncumbered',
 		},
 		{
 			key: 'flags.midi-qol.disadvantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: 'fromUuidSync(tokenUuid).actor.statuses.has("exceedingCarryingCapacity") || fromUuidSync(tokenUuid).actor.statuses.has("heavilyEncumbered")',
+			value: 'statuses.exceedingCarryingCapacity || statuses.heavilyEncumbered',
 		},
 	],
 };
@@ -151,38 +165,36 @@ statusEffects[staticID('frightened')] = {
 		{
 			key: 'flags.midi-qol.disadvantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: '1',
+			value: 'canSee(tokenUuid, originTokenUuid)',
 		},
 		{
 			key: 'flags.midi-qol.disadvantage.ability.check.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: '1',
+			value: 'canSee(tokenUuid, originTokenUuid)',
 		},
 	],
 };
-/*
-statusEffects[staticID('grappled')] = {
-	changes: [
-		{
-			key: 'system.attributes.movement.all',
-			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: '0',
-			priority: 25,
-		},
-	],
-};
-*/
+if (modernRules)
+	statusEffects[staticID('grappled')] = {
+		changes: [
+			{
+				key: 'flags.midi-qol.disadvantage.attack.all',
+				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+				value: 'targetUuid !== originTokenUuid',
+			},
+		],
+	};
 statusEffects[staticID('invisible')] = {
 	changes: [
 		{
 			key: 'flags.midi-qol.advantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: '1',
+			value: '!target.canSee',
 		},
 		{
 			key: 'flags.midi-qol.grants.disadvantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: '1',
+			value: '!canSee',
 		},
 	],
 };
@@ -227,21 +239,6 @@ statusEffects[staticID('petrified')] = {
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
 		},
-		{
-			key: 'system.traits.di.value',
-			mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-			value: 'poison',
-		},
-		{
-			key: 'system.traits.dr.all',
-			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: 'physical',
-		},
-		{
-			key: 'system.traits.dr.all',
-			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: 'magical',
-		},
 	],
 };
 statusEffects[staticID('poisoned')] = {
@@ -263,23 +260,17 @@ statusEffects[staticID('prone')] = {
 		{
 			key: 'flags.midi-qol.grants.advantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: 'getDistance(fromUuidSync(tokenUuid),workflow.targets.first()) <= 5',
+			value: 'getDistance(tokenUuid,targetUuid) <= 5',
 		},
 		{
 			key: 'flags.midi-qol.grants.disadvantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: 'getDistance(fromUuidSync(tokenUuid),workflow.targets.first()) > 5',
+			value: 'getDistance(tokenUuid,targetUuid) > 5',
 		},
 		{
 			key: 'flags.midi-qol.disadvantage.attack.all',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 			value: '1',
-		},
-		{
-			key: 'system.attributes.movement.walk',
-			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: '*0.5',
-			priority: 25,
 		},
 	],
 };
@@ -307,7 +298,7 @@ statusEffects[staticID('silenced')] = {
 		{
 			key: 'flags.midi-qol.fail.spell.vocal',
 			mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-			value: 'fromUuidSync(tokenUuid)?.actor.appliedEffects.some(e=>e.name == "Subtle Spell") ? 1 : 0',
+			value: 'effects.some(e=>e.name == "Subtle Spell") ? 1 : 0',
 		},
 	],
 };
@@ -354,13 +345,6 @@ statusEffects[staticID('unconscious')] = {
 		},
 	],
 };
-statusEffects[staticID('reaction')] = {
-	[imgSource]: 'modules/bugs/images/reaction.svg',
-	'flags.dae.specialDuration': ['turnStartSource', 'combatEnd'],
-	[`flags.${MODULE_ID}.statusEffect`]: staticID('reaction'),
-	duration: { rounds: 1 },
-	_id: staticID('reaction'),
-};
 
 function getChanges(id) {
 	return statusEffects[id]?.changes;
@@ -373,43 +357,42 @@ function staticID(id) {
 }
 
 function shouldProceed(check, hook) {
-	return (
-		(!check.flags?.dnd5e?.exhaustionLevel && hook == 'create') ||
-		(check.flags?.dnd5e?.exhaustionLevel &&
-			!game.modules.get('alternative-exhaustion-5e')?.active &&
-			(!game.modules.get('rest-recovery')?.active || !game.settings.get('rest-recovery', 'one-dnd-exhaustion')))
-	);
+	return (!check.flags?.dnd5e?.exhaustionLevel && hook == 'create') || (!modernRules && check.flags?.dnd5e?.exhaustionLevel && !game.modules.get('alternative-exhaustion-5e')?.active && (!game.modules.get('rest-recovery')?.active || !game.settings.get('rest-recovery', 'one-dnd-exhaustion')));
 }
 
-function gameVersion (ver) {
-	return ver ? game.version == ver : game.version
+function gameVersion(ver) {
+	return ver ? game.version == ver : game.version;
 }
 
-//Monkeypatch, adding back the MidiQOL reaction/bonus action when DFreds is set to REPLACE.
-Hooks.on('dfreds-convenient-effects.ready', () => {
-	if (game.settings.get('dfreds-convenient-effects','modifyStatusEffects') !== 'replace') return true;
-	const midiVersion = game.modules.get('midi-qol')?.version;
-	if (!midiVersion || midiVersion <= '11.4.40.1' || midiVersion > '11.4.42') return true;
-	console.warn('World script fix for MidiQOL reactions, midiVersion:', midiVersion);
-	const imgSource = game.version < 12 ? 'icon' : 'img';
-	const i18n = (string) => game.i18n.localize(string);
-	CONFIG.statusEffects.push({
-		id: 'reaction',
-		_id: staticID('reaction'),
-		name: i18n('midi-qol.reactionUsed'),
-		changes: [{ key: 'flags.midi-qol.actions.reaction', mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: true }],
-		[imgSource]: 'modules/midi-qol/icons/reaction.svg',
-		flags: { dae: { specialDuration: ['turnStart', 'combatEnd', 'shortRest'] } },
-	});
-	CONFIG.statusEffects.push({
-		id: 'bonusaction',
-		_id: staticID('bonusaction'),
-		name: i18n('midi-qol.bonusActionUsed'),
-		changes: [{ key: 'flags.midi-qol.actions.bonus', mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: true }],
-		[imgSource]: 'modules/midi-qol/icons/bonus-action.svg',
-		flags: { dae: { specialDuration: ['turnStart', 'combatEnd', 'shortRest'] } },
-	});
-});
+function i18n(string) {
+	return game.i18n.localize(string);
+}
+
+function getEffectOriginToken(effect /* ActiveEffect */, type = 'id' /*token, id, uuid*/) {
+	if (!effect) return undefined;
+	let effectOriginActor;
+	if (effect.parent instanceof CONFIG.Item.documentClass && effect.parent.isEmbedded) effectOriginActor = effect.parent.actor;
+	if (!effectOriginActor && !effect.origin) return undefined;
+	const origin = fromUuidSync(effect.origin);
+	if (!effectOriginActor && origin instanceof CONFIG.ActiveEffect.documentClass) {
+		if (origin.parent instanceof CONFIG.Item.documentClass) effectOriginActor = origin.parent.actor;
+		if (origin.parent instanceof CONFIG.Actor.documentClass) effectOriginActor = origin.parent;
+	}
+	if (!effectOriginActor) return undefined;
+	if (type === 'id') return effectOriginActor.getActiveTokens()[0]?.id;
+	if (type === 'uuid') return effectOriginActor.getActiveTokens()[0]?.document.id;
+	if (type === 'token') return effectOriginActor.getActiveTokens()[0];
+}
+
+function getEffectParentToken(doc, type = 'id') {
+	if (!doc) return undefined;
+	let actor;
+	if (doc instanceof CONFIG.Item.documentClass) actor = doc.actor;
+	if (doc instanceof CONFIG.Actor.documentClass) actor = doc;
+	if (type === 'id') return actor.getActiveTokens()[0]?.id;
+	if (type === 'uuid') return actor.getActiveTokens()[0]?.document.id;
+	if (type === 'token') return actor.getActiveTokens()[0];
+}
 
 Hooks.once('midi-qol.ready', () => {
 	Hooks.on('preUpdateActiveEffect', (ae, updates) => {
@@ -421,22 +404,17 @@ Hooks.once('midi-qol.ready', () => {
 	Hooks.on('preCreateActiveEffect', (ae, aedata) => {
 		if (shouldProceed(aedata, 'create') && getChanges(ae.id)?.length) {
 			const changes = getChanges(ae.id);
+			changes.filter((change) => {
+				const hasOriginTokenUuid = change.value.includes('originTokenUuid');
+				const hasOriginTokenId = change.value.includes('originTokenId');
+				const hasOriginToken = change.value.includes('originToken');
+				if (hasOriginTokenUuid) change.value = change.value.replaceAll('originTokenUuid', `"${getEffectOriginToken(ae, 'uuid')}"`);
+				if (hasOriginTokenId) change.value = change.value.replaceAll('originTokenUuid', `"${getEffectOriginToken(ae, 'id')}"`);
+				if (hasOriginToken) change.value = change.value.replaceAll('originTokenUuid', `"${getEffectOriginToken(ae, 'token')}"`);
+				const hasEffectTokenUuid = change.value.includes('effectTokenUuid');
+				if (hasEffectTokenUuid) change.value = change.value.replaceAll('effectTokenUuid', `"${getEffectParentToken(ae.parent, 'uuid')}"`);
+			});
 			ae.updateSource({ changes });
 		}
 	});
-	if (game.modules.get('midi-qol')?.version < '11.4.41') {
-		Hooks.on('midi-qol.RollComplete', async (workflow) => {
-			const { actor, item } = workflow || {};
-			if (!item) return true;
-			const parent = actor ?? item.actor;
-			const { type, cost } = item.system.activation;
-			if ((type?.includes('reaction') && cost) || parent.getFlag('midi-qol', 'actions.reaction') || (game.combat?.active && game.combat.combatant?.actor !== parent)) {
-				const effectData = statusEffects[staticID('reaction')];
-				effectData.name = game.i18n.localize(`${MODULE_ID}.reactionUsed`);
-				effectData.origin = item.uuid;
-				await parent.effects.get(staticID('reaction'))?.delete();
-				return ActiveEffect.implementation.create([effectData], { parent, keepId: true });
-			}
-		});
-	}
 });

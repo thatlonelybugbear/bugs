@@ -1,3 +1,8 @@
+## v12.438.1
+- Compatibility bump 5e 4.3.8 (minimum 4.3.x), Foundry v12.331
+- Modern rules changes
+  - Both modern and legacy rules are respected.
+
 ### v1.2.1.1
 - Hotfix, forgotten comma, thanks @gambit
 
