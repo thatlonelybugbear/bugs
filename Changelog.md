@@ -1,7 +1,8 @@
-## v1.4.1
-- Compatibility bump 5e 4.2.2
+## v12.438.1
+- Compatibility bump 5e 4.3.8, Foundry v12.331
 - Modern rules changes
   - Both modern and legacy rules are respected.
+- Supports MidiQOL 12.4.39+
 
 ### v1.2.1.1
 - Hotfix, forgotten comma, thanks @gambit
