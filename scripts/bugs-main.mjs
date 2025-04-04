@@ -26,9 +26,9 @@ function initializeStatusEffects() {
 				value: 'nonWorkflowTargetedToken === effectTokenUuid',
 			},
 			{
-				key: 'flags.midi-qol.advantage.fail.all',
+				key: 'flags.midi-qol.fail.all',
 				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: 'hasDamage',
+				value: 'hasDamage && targetUuid === originTokenUuid',
 			},
 		],
 	};
@@ -349,7 +349,9 @@ function initializeStatusEffects() {
 }
 
 function getChanges(id) {
-	return BUGS.statusEffects[id]?.changes;
+	const isBUGS = BUGS.statusEffects[id];
+	if (isBUGS) return foundry.utils.duplicate(isBUGS.changes);
+	else return false;
 }
 
 function staticID(id) {
@@ -371,10 +373,12 @@ function i18n(string) {
 }
 
 function getEffectOriginToken(effect /* ActiveEffect */, type = 'id' /*token, id, uuid*/) {
-	if (!effect) return undefined;
+	if (!effect?.origin) return undefined;
 	let effectOriginActor;
+	/*  //we don't allow the preCreateHook on Item documents
 	if (effect.parent instanceof CONFIG.Item.documentClass && effect.parent.isEmbedded) effectOriginActor = effect.parent.actor;
 	if (!effectOriginActor && !effect.origin) return undefined;
+	*/
 	const origin = fromUuidSync(effect.origin);
 	if (!effectOriginActor && origin instanceof CONFIG.ActiveEffect.documentClass) {
 		if (origin.parent instanceof CONFIG.Item.documentClass) effectOriginActor = origin.parent.actor;
@@ -382,18 +386,19 @@ function getEffectOriginToken(effect /* ActiveEffect */, type = 'id' /*token, id
 	}
 	if (!effectOriginActor) return undefined;
 	if (type === 'id') return effectOriginActor.getActiveTokens()[0]?.id;
-	if (type === 'uuid') return effectOriginActor.getActiveTokens()[0]?.document.id;
+	if (type === 'uuid') return effectOriginActor.getActiveTokens()[0]?.document.uuid;
 	if (type === 'token') return effectOriginActor.getActiveTokens()[0];
 }
 
-function getEffectParentToken(doc, type = 'id') {
+function getEffectParentToken(doc /*actor*/, type = 'id') {
+	//we don't allow the preCreateHook on Item documents
 	if (!doc) return undefined;
-	let actor;
-	if (doc instanceof CONFIG.Item.documentClass) actor = doc.actor;
-	if (doc instanceof CONFIG.Actor.documentClass) actor = doc;
-	if (type === 'id') return actor.getActiveTokens()[0]?.id;
-	if (type === 'uuid') return actor.getActiveTokens()[0]?.document.id;
-	if (type === 'token') return actor.getActiveTokens()[0];
+	// let actor;
+	// if (doc instanceof CONFIG.Item.documentClass) actor = doc.actor;
+	// if (doc instanceof CONFIG.Actor.documentClass) actor = doc;
+	if (type === 'id') return doc.getActiveTokens()[0]?.id;
+	if (type === 'uuid') return doc.getActiveTokens()[0]?.document.uuid;
+	if (type === 'token') return doc.getActiveTokens()[0];
 }
 
 Hooks.once('midi-qol.ready', () => {
@@ -401,25 +406,28 @@ Hooks.once('midi-qol.ready', () => {
 	const BUGS = {};
 	BUGS.statusEffects = initializeStatusEffects();
 	Hooks.on('preUpdateActiveEffect', (ae, updates) => {
+		if (ae.parent instanceof CONFIG.Item.documentClass) return true; //if the created effect is on an item, do not add anything.
 		if (shouldProceed(updates, 'update')) {
 			const exhaustionLevel = updates.flags.dnd5e.exhaustionLevel === 1 ? '' : updates.flags.dnd5e.exhaustionLevel;
 			updates.changes = getChanges(staticID(`exhaustion${exhaustionLevel}`));
 		}
 	});
 	Hooks.on('preCreateActiveEffect', (ae, aedata) => {
-		if (shouldProceed(aedata, 'create') && getChanges(ae.id)?.length) {
+		if (ae.parent instanceof CONFIG.Item.documentClass) return true; //if the created effect is on an item, do not add anything.
+		if (shouldProceed(aedata, 'create')) {
 			const changes = getChanges(ae.id);
+			if (!changes) return true;
 			changes.filter((change) => {
 				const hasOriginTokenUuid = change.value.includes('originTokenUuid');
 				const hasOriginTokenId = change.value.includes('originTokenId');
 				const hasOriginToken = change.value.includes('originToken');
 				if (hasOriginTokenUuid) change.value = change.value.replaceAll('originTokenUuid', `"${getEffectOriginToken(ae, 'uuid')}"`);
-				if (hasOriginTokenId) change.value = change.value.replaceAll('originTokenUuid', `"${getEffectOriginToken(ae, 'id')}"`);
-				if (hasOriginToken) change.value = change.value.replaceAll('originTokenUuid', `"${getEffectOriginToken(ae, 'token')}"`);
+				if (hasOriginTokenId) change.value = change.value.replaceAll('originTokenId', `"${getEffectOriginToken(ae, 'id')}"`);
+				if (hasOriginToken) change.value = change.value.replaceAll('originToken', `"${getEffectOriginToken(ae, 'token')}"`);
 				const hasEffectTokenUuid = change.value.includes('effectTokenUuid');
 				if (hasEffectTokenUuid) change.value = change.value.replaceAll('effectTokenUuid', `"${getEffectParentToken(ae.parent, 'uuid')}"`);
 			});
-			ae.updateSource({ changes });
+			ae.updateSource({ changes: aedata.changes.concat(changes) });
 		}
 	});
 	BUGS.info = { module: "Bugbear's Scripts", version: game.modules.get('bugs')?.version };
