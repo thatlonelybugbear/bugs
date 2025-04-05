@@ -480,7 +480,7 @@ Hooks.once('midi-qol.ready', () => {
 		if (ae.parent instanceof CONFIG.Item.documentClass) return true;
 		if (shouldProceed(aedata, 'create')) {
 			const changes = getChanges(ae);
-			if (!changes) return true;
+			if (!changes || foundry.utils.isEmpty(changes)) return true;
 			changes.filter((change) => {
 				const hasOriginTokenUuid = change.value.includes('originTokenUuid');
 				const hasOriginTokenId = change.value.includes('originTokenId');
