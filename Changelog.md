@@ -1,7 +1,13 @@
 ## v12.438.1
-- Compatibility bump 5e 4.3.8 (minimum 4.3.x), Foundry v12.331
-- Modern rules changes
-  - Both modern and legacy rules are respected.
+* D&D5e 4.3.x (set as minimum version) compatibility and changes for modern rules
+* `Charmed` status will ***try*** to automate:
+  * fail of activities that would do damage to the Charmer
+  * advantage for checks that the Charmer rolls with the Charmed creature **targeted** when rolling
+* Added `globalThis.BUGS` object which includes: 
+  * `info`: module name and version,
+  * `helpers`:  `getEffectOriginToken(effect, type)`, `getEffectParentToken(actor, type)` 
+  * `statusEffects`: which includes all the predefined changes to the relevant effects.
+    * as this it globally accessed and BUGS will check `BUGS.statusEffects[staticID]` for the relevant changes, any module or script altering these can inject their own flags etc.
 
 ### v1.2.1.1
 - Hotfix, forgotten comma, thanks @gambit
