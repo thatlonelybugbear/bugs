@@ -19,18 +19,32 @@ function initializeStatusEffects() {
 		],
 	};
 	statusEffects[staticID('charmed')] = {
-		changes: [
-			{
-				key: 'flags.midi-qol.grants.advantage.ability.check.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: 'nonWorkflowTargetedToken === effectTokenUuid',
-			},
-			{
-				key: 'flags.midi-qol.fail.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: 'hasDamage && targetUuid === originTokenUuid',
-			},
-		],
+		changes: {
+			origin: [
+				{
+					key: 'flags.midi-qol.grants.advantage.ability.check.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: 'nonWorkflowTargetedToken === effectTokenUuid',
+				},
+				{
+					key: 'flags.midi-qol.fail.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: 'hasDamage && targetUuid === originTokenUuid',
+				},
+			],
+			nonorigin: [
+				{
+					key: 'flags.midi-qol.grants.advantage.ability.check.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: 'nonWorkflowTargetedToken === effectTokenUuid',
+				},
+				{
+					key: 'flags.midi-qol.fail.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: 'confirm("Is this roll against the Charmed status source?")',
+				},
+			],
+		},
 	};
 	statusEffects[staticID('dodging')] = {
 		changes: [
@@ -168,28 +182,45 @@ function initializeStatusEffects() {
 		};
 	}
 	statusEffects[staticID('frightened')] = {
-		changes: [
-			{
-				key: 'flags.midi-qol.disadvantage.attack.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: 'canSee(tokenUuid, originTokenUuid)',
-			},
-			{
-				key: 'flags.midi-qol.disadvantage.ability.check.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: 'canSee(tokenUuid, originTokenUuid)',
-			},
-		],
-	};
-	if (modernRules) {
-		statusEffects[staticID('grappled')] = {
-			changes: [
+		changes: {
+			origin: [
 				{
 					key: 'flags.midi-qol.disadvantage.attack.all',
 					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-					value: 'targetUuid !== originTokenUuid',
+					value: 'canSee(tokenUuid, originTokenUuid)',
+				},
+				{
+					key: 'flags.midi-qol.disadvantage.ability.check.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: 'canSee(tokenUuid, originTokenUuid)',
 				},
 			],
+			nonorigin: [
+				{
+					key: 'flags.midi-qol.disadvantage.attack.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: true,
+				},
+				{
+					key: 'flags.midi-qol.disadvantage.ability.check.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: true,
+				},
+			],
+		},
+	};
+	if (modernRules) {
+		statusEffects[staticID('grappled')] = {
+			changes: {
+				origin: [
+					{
+						key: 'flags.midi-qol.disadvantage.attack.all',
+						mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+						value: 'targetUuid !== originTokenUuid',
+					},
+				],
+				nonorigin: [],
+			},
 		};
 	}
 	statusEffects[staticID('invisible')] = {
@@ -361,9 +392,13 @@ function initializeStatusEffects() {
 	return statusEffects;
 }
 
-function getChanges(id) {
+function getChanges(ae) {
+	const id = typeof ae === 'string' ? ae : ae.id;
+	// const isTransfer = ae.transfer;
+	const hasOrigin = ae.origin;
 	const isBUGS = BUGS.statusEffects[id];
-	if (isBUGS) return foundry.utils.duplicate(isBUGS.changes);
+	if (isBUGS && !hasOrigin) return isBUGS.changes.nonorigin ? foundry.utils.duplicate(isBUGS.changes.nonorigin) : foundry.utils.duplicate(isBUGS.changes);
+	else if (isBUGS && hasOrigin) return isBUGS.changes.origin ? foundry.utils.duplicate(isBUGS.changes.origin) : foundry.utils.duplicate(isBUGS.changes);
 	else return false;
 }
 
@@ -393,9 +428,25 @@ function getEffectOriginToken(effect /* ActiveEffect */, type = 'id' /*token, id
 	if (!effectOriginActor && !effect.origin) return undefined;
 	*/
 	const origin = fromUuidSync(effect.origin);
-	if (!effectOriginActor && origin instanceof CONFIG.ActiveEffect.documentClass) {
+	if (!origin?.origin) {
+		if (origin instanceof CONFIG.ActiveEffect.documentClass) {
+			if (origin.parent instanceof CONFIG.ActiveEffect.documentClass) {
+				if (origin.parent?.parent instanceof CONFIG.Item.documentClass) effectOriginActor = origin.parent.parent.actor;
+				if (origin.parent?.parent instanceof CONFIG.Actor.documentClass) effectOriginActor = origin.parent.parent;
+			}
+		}
 		if (origin.parent instanceof CONFIG.Item.documentClass) effectOriginActor = origin.parent.actor;
 		if (origin.parent instanceof CONFIG.Actor.documentClass) effectOriginActor = origin.parent;
+	} else {
+		const newOrigin = fromUuidSync(origin.origin);
+		if (newOrigin instanceof CONFIG.ActiveEffect.documentClass) {
+			if (newOrigin.parent instanceof CONFIG.ActiveEffect.documentClass) {
+				if (newOrigin.parent?.parent instanceof CONFIG.Item.documentClass) effectOriginActor = newOrigin.parent.parent.actor;
+				if (newOrigin.parent?.parent instanceof CONFIG.Actor.documentClass) effectOriginActor = newOrigin.parent.parent;
+			}
+		}
+		if (newOrigin.parent instanceof CONFIG.Item.documentClass) effectOriginActor = newOrigin.parent.actor;
+		if (newOrigin.parent instanceof CONFIG.Actor.documentClass) effectOriginActor = newOrigin.parent;
 	}
 	if (!effectOriginActor) return undefined;
 	if (type === 'id') return effectOriginActor.getActiveTokens()[0]?.id;
@@ -425,9 +476,10 @@ Hooks.once('midi-qol.ready', () => {
 		}
 	});
 	Hooks.on('preCreateActiveEffect', (ae, aedata) => {
+		console.log('BUGS,', ae);
 		if (ae.parent instanceof CONFIG.Item.documentClass) return true;
 		if (shouldProceed(aedata, 'create')) {
-			const changes = getChanges(ae.id);
+			const changes = getChanges(ae);
 			if (!changes) return true;
 			changes.filter((change) => {
 				const hasOriginTokenUuid = change.value.includes('originTokenUuid');
@@ -443,6 +495,6 @@ Hooks.once('midi-qol.ready', () => {
 		}
 	});
 	BUGS.info = { module: "Bugbear's Scripts", version: game.modules.get('bugs')?.version };
-	BUGS.helpers = { getEffectOriginToken, getEffectParentToken };
+	BUGS.helpers = { getEffectOriginToken, getEffectParentToken, staticID };
 	globalThis.BUGS = BUGS;
 });
