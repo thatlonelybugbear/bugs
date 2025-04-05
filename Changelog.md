@@ -1,3 +1,7 @@
+## v12.438.2
+* Slightly better handling for effect with no available origin.
+* Added BUGS.helpers.staticID which returns the system's static ids of statuses, eg `dnd5echarmed0000` for `charmed` status
+
 ## v12.438.1
 * D&D5e 4.3.x (set as minimum version) compatibility and changes for modern rules
 * `Charmed` status will ***try*** to automate:
