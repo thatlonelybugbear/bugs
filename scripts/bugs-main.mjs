@@ -37,129 +37,136 @@ function initializeStatusEffects() {
 			{
 				key: 'flags.midi-qol.grants.disadvantage.attack.all',
 				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: 'target?.canSee && !["incapacitated","grappled","paralyzed","petrified","restrained","stunned","unconscious"].some(el=>target?.statuses[el])) && target?.attributes.exhaustion !== 5',
+				value: 'target?.canSee && !["incapacitated","grappled","paralyzed","petrified","restrained","stunned","unconscious"].some(el=>target?.statuses[el]))',
+			},
+			{
+				key: 'flags.midi-qol.advantage.ability.save.dex',
+				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+				value: 'target?.canSee && !["incapacitated","grappled","paralyzed","petrified","restrained","stunned","unconscious"].some(el=>target?.statuses[el]))',
 			},
 		],
 	};
-	statusEffects[staticID('encumbered')] = {
-		changes: [
-			{
-				key: 'flags.midi-qol.disadvantage.ability.check.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: 'statuses.exceedingCarryingCapacity || statuses.heavilyEncumbered',
-			},
-			{
-				key: 'flags.midi-qol.disadvantage.ability.save.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: 'statuses.exceedingCarryingCapacity || statuses.heavilyEncumbered',
-			},
-			{
-				key: 'flags.midi-qol.disadvantage.attack.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: 'statuses.exceedingCarryingCapacity || statuses.heavilyEncumbered',
-			},
-		],
-	};
-	statusEffects[staticID('exhaustion')] = {
-		changes: [
-			{
-				key: 'flags.midi-qol.disadvantage.ability.check.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
-			{
-				key: 'flags.dnd5e.initiativeDisadv',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
-		],
-	};
-	statusEffects[staticID('exhaustion2')] = {
-		changes: [
-			{
-				key: 'flags.midi-qol.disadvantage.ability.check.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
-			{
-				key: 'flags.dnd5e.initiativeDisadv',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
-		],
-	};
-	statusEffects[staticID('exhaustion3')] = {
-		changes: [
-			{
-				key: 'flags.midi-qol.disadvantage.ability.check.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
-			{
-				key: 'flags.dnd5e.initiativeDisadv',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
-			{
-				key: 'flags.midi-qol.disadvantage.attack.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
-			{
-				key: 'flags.midi-qol.disadvantage.ability.save.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
-		],
-	};
-	statusEffects[staticID('exhaustion4')] = {
-		changes: [
-			{
-				key: 'flags.midi-qol.disadvantage.ability.check.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
-			{
-				key: 'flags.dnd5e.initiativeDisadv',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
-			{
-				key: 'flags.midi-qol.disadvantage.attack.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
-			{
-				key: 'flags.midi-qol.disadvantage.ability.save.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
-		],
-	};
-	statusEffects[staticID('exhaustion5')] = {
-		changes: [
-			{
-				key: 'flags.midi-qol.disadvantage.ability.check.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
-			{
-				key: 'flags.dnd5e.initiativeDisadv',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
-			{
-				key: 'flags.midi-qol.disadvantage.attack.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
-			{
-				key: 'flags.midi-qol.disadvantage.ability.save.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
-		],
-	};
+	if (!modernRules) {
+		statusEffects[staticID('encumbered')] = {
+			changes: [
+				{
+					key: 'flags.midi-qol.disadvantage.ability.check.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: 'statuses.exceedingCarryingCapacity || statuses.heavilyEncumbered',
+				},
+				{
+					key: 'flags.midi-qol.disadvantage.ability.save.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: 'statuses.exceedingCarryingCapacity || statuses.heavilyEncumbered',
+				},
+				{
+					key: 'flags.midi-qol.disadvantage.attack.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: 'statuses.exceedingCarryingCapacity || statuses.heavilyEncumbered',
+				},
+			],
+		};
+		statusEffects[staticID('exhaustion')] = {
+			changes: [
+				{
+					key: 'flags.midi-qol.disadvantage.ability.check.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: '1',
+				},
+				{
+					key: 'flags.dnd5e.initiativeDisadv',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: '1',
+				},
+			],
+		};
+		statusEffects[staticID('exhaustion2')] = {
+			changes: [
+				{
+					key: 'flags.midi-qol.disadvantage.ability.check.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: '1',
+				},
+				{
+					key: 'flags.dnd5e.initiativeDisadv',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: '1',
+				},
+			],
+		};
+		statusEffects[staticID('exhaustion3')] = {
+			changes: [
+				{
+					key: 'flags.midi-qol.disadvantage.ability.check.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: '1',
+				},
+				{
+					key: 'flags.dnd5e.initiativeDisadv',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: '1',
+				},
+				{
+					key: 'flags.midi-qol.disadvantage.attack.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: '1',
+				},
+				{
+					key: 'flags.midi-qol.disadvantage.ability.save.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: '1',
+				},
+			],
+		};
+		statusEffects[staticID('exhaustion4')] = {
+			changes: [
+				{
+					key: 'flags.midi-qol.disadvantage.ability.check.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: '1',
+				},
+				{
+					key: 'flags.dnd5e.initiativeDisadv',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: '1',
+				},
+				{
+					key: 'flags.midi-qol.disadvantage.attack.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: '1',
+				},
+				{
+					key: 'flags.midi-qol.disadvantage.ability.save.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: '1',
+				},
+			],
+		};
+		statusEffects[staticID('exhaustion5')] = {
+			changes: [
+				{
+					key: 'flags.midi-qol.disadvantage.ability.check.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: '1',
+				},
+				{
+					key: 'flags.dnd5e.initiativeDisadv',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: '1',
+				},
+				{
+					key: 'flags.midi-qol.disadvantage.attack.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: '1',
+				},
+				{
+					key: 'flags.midi-qol.disadvantage.ability.save.all',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: '1',
+				},
+			],
+		};
+	}
 	statusEffects[staticID('frightened')] = {
 		changes: [
 			{
@@ -174,7 +181,7 @@ function initializeStatusEffects() {
 			},
 		],
 	};
-	if (modernRules)
+	if (modernRules) {
 		statusEffects[staticID('grappled')] = {
 			changes: [
 				{
@@ -184,6 +191,7 @@ function initializeStatusEffects() {
 				},
 			],
 		};
+	}
 	statusEffects[staticID('invisible')] = {
 		changes: [
 			{
@@ -195,6 +203,11 @@ function initializeStatusEffects() {
 				key: 'flags.midi-qol.grants.disadvantage.attack.all',
 				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 				value: '!canSee',
+			},
+			{
+				key: 'flags.dnd5e.initiativeAdv',
+				mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+				value: true,
 			},
 		],
 	};
@@ -406,14 +419,13 @@ Hooks.once('midi-qol.ready', () => {
 	const BUGS = {};
 	BUGS.statusEffects = initializeStatusEffects();
 	Hooks.on('preUpdateActiveEffect', (ae, updates) => {
-		if (ae.parent instanceof CONFIG.Item.documentClass) return true; //if the created effect is on an item, do not add anything.
 		if (shouldProceed(updates, 'update')) {
 			const exhaustionLevel = updates.flags.dnd5e.exhaustionLevel === 1 ? '' : updates.flags.dnd5e.exhaustionLevel;
 			updates.changes = getChanges(staticID(`exhaustion${exhaustionLevel}`));
 		}
 	});
 	Hooks.on('preCreateActiveEffect', (ae, aedata) => {
-		if (ae.parent instanceof CONFIG.Item.documentClass) return true; //if the created effect is on an item, do not add anything.
+		if (ae.parent instanceof CONFIG.Item.documentClass) return true;
 		if (shouldProceed(aedata, 'create')) {
 			const changes = getChanges(ae.id);
 			if (!changes) return true;
