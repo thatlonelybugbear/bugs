@@ -12,8 +12,8 @@
         }
     ],
     "compatibility": {
-        "minimum": "11",
-        "maximum": "12",
+        "minimum": "12",
+        "maximum": "13",
         "verified": "12.331"
     },
     "esmodules": ["scripts/bugs-main.mjs"],
