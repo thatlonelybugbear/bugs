@@ -8,6 +8,10 @@
   * `helpers`:  `getEffectOriginToken(effect, type)`, `getEffectParentToken(actor, type)` 
   * `statusEffects`: which includes all the predefined changes to the relevant effects.
     * as this it globally accessed and BUGS will check `BUGS.statusEffects[staticID]` for the relevant changes, any module or script altering these can inject their own flags etc.
+* Added as available parameters in the effect values:
+  * `effectTokenUuid`: which when the effect is being created, will be replaced by the token.document.uuid of the actor that the effect is being applied on.
+  * `originTokenUuid`: which when the effect is being created, will be replaced by the token.document.uuid of the actor that the is the origin of the effect that's being created.
+     * also available are `originToken`, `originTokenId` which return the Token5e and the id if there is a need.
 
 ### v1.2.1.1
 - Hotfix, forgotten comma, thanks @gambit
