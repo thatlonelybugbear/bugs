@@ -1,3 +1,9 @@
+## v12.438.3
+* Added settings for:
+ * automatically adding MidiQOL flags in applied system statuses (default on)
+ * automatically rolling and applying one of the MidiQOL choose effects (default on)
+   * to trigger this function, add in the Item's requirements field the string `[autoMidiChooseEffects]` 
+
 ## v12.438.2
 * Slightly better handling for effect with no available origin.
 * Added BUGS.helpers.staticID which returns the system's static ids of statuses, eg `dnd5echarmed0000` for `charmed` status
