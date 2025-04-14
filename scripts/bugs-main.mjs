@@ -468,33 +468,88 @@ function getEffectParentToken(doc /*actor*/, type = 'id') {
 Hooks.once('midi-qol.ready', () => {
 	modernRules = game.settings.get('dnd5e', 'rulesVersion') === 'modern';
 	const BUGS = {};
-	BUGS.statusEffects = initializeStatusEffects();
-	Hooks.on('preUpdateActiveEffect', (ae, updates) => {
-		if (shouldProceed(updates, 'update')) {
-			const exhaustionLevel = updates.flags.dnd5e.exhaustionLevel === 1 ? '' : updates.flags.dnd5e.exhaustionLevel;
-			updates.changes = getChanges(staticID(`exhaustion${exhaustionLevel}`));
-		}
-	});
-	Hooks.on('preCreateActiveEffect', (ae, aedata) => {
-		console.log('BUGS,', ae);
-		if (ae.parent instanceof CONFIG.Item.documentClass) return true;
-		if (shouldProceed(aedata, 'create')) {
-			const changes = getChanges(ae);
-			if (!changes || foundry.utils.isEmpty(changes)) return true;
-			changes.filter((change) => {
-				const hasOriginTokenUuid = change.value.includes('originTokenUuid');
-				const hasOriginTokenId = change.value.includes('originTokenId');
-				const hasOriginToken = change.value.includes('originToken');
-				if (hasOriginTokenUuid) change.value = change.value.replaceAll('originTokenUuid', `"${getEffectOriginToken(ae, 'uuid')}"`);
-				if (hasOriginTokenId) change.value = change.value.replaceAll('originTokenId', `"${getEffectOriginToken(ae, 'id')}"`);
-				if (hasOriginToken) change.value = change.value.replaceAll('originToken', `"${getEffectOriginToken(ae, 'token')}"`);
-				const hasEffectTokenUuid = change.value.includes('effectTokenUuid');
-				if (hasEffectTokenUuid) change.value = change.value.replaceAll('effectTokenUuid', `"${getEffectParentToken(ae.parent, 'uuid')}"`);
-			});
-			ae.updateSource({ changes: aedata.changes.concat(changes) });
-		}
-	});
-	BUGS.info = { module: "Bugbear's Scripts", version: game.modules.get('bugs')?.version };
+	BUGS.info = { module: "Bugbear's Scripts", version: game.modules.get('bugs')?.version, modernRules };
 	BUGS.helpers = { getEffectOriginToken, getEffectParentToken, staticID };
+	if (getAutomateStatusesFlags) {
+		BUGS.statusEffects = initializeStatusEffects();
+		Hooks.on('preUpdateActiveEffect', (ae, updates) => {
+			if (shouldProceed(updates, 'update')) {
+				const exhaustionLevel = updates.flags.dnd5e.exhaustionLevel === 1 ? '' : updates.flags.dnd5e.exhaustionLevel;
+				updates.changes = getChanges(staticID(`exhaustion${exhaustionLevel}`));
+			}
+		});
+		Hooks.on('preCreateActiveEffect', (ae, aedata) => {
+			console.log('BUGS,', ae);
+			if (ae.parent instanceof CONFIG.Item.documentClass) return true;
+			if (shouldProceed(aedata, 'create')) {
+				const changes = getChanges(ae);
+				if (!changes || foundry.utils.isEmpty(changes)) return true;
+				changes.filter((change) => {
+					const hasOriginTokenUuid = change.value.includes('originTokenUuid');
+					const hasOriginTokenId = change.value.includes('originTokenId');
+					const hasOriginToken = change.value.includes('originToken');
+					if (hasOriginTokenUuid) change.value = change.value.replaceAll('originTokenUuid', `"${getEffectOriginToken(ae, 'uuid')}"`);
+					if (hasOriginTokenId) change.value = change.value.replaceAll('originTokenId', `"${getEffectOriginToken(ae, 'id')}"`);
+					if (hasOriginToken) change.value = change.value.replaceAll('originToken', `"${getEffectOriginToken(ae, 'token')}"`);
+					const hasEffectTokenUuid = change.value.includes('effectTokenUuid');
+					if (hasEffectTokenUuid) change.value = change.value.replaceAll('effectTokenUuid', `"${getEffectParentToken(ae.parent, 'uuid')}"`);
+				});
+				ae.updateSource({ changes: aedata.changes.concat(changes) });
+			}
+		});
+	}
 	globalThis.BUGS = BUGS;
 });
+
+async function implementAutoMidiChooseEffects(app, html, data) {
+	if (!getAutomateChooseEffects() || !html.hasClass('effectNoTarget')) return;
+	const buttons = html.find('button');
+	const numButtons = buttons.length;
+
+	if (numButtons === 0) return;
+
+	const roll = await new Roll(`1d${numButtons}`).evaluate();
+	const result = roll.total - 1;
+	await game.dice3d.showForRoll(roll, game.user, true);
+	const buttonToClick = buttons.eq(result);
+	buttonToClick.css({
+		outline: '3px solid orange',
+		transition: 'outline 0.3s ease-in-out',
+	});
+	console.log(`Auto-selecting button #${result + 1} in 1 second...`);
+	//should add a nice chat message too or something that makes sense. Maybe update the Item's chat card with the roll data
+	setTimeout(() => {
+		buttonToClick.trigger('click');
+	}, 1000);
+}
+
+function registerSettings() {
+	game.settings.register('bugs', 'automateStatusesFlags', {
+		name: 'Add MidiQOL flags on statuses',
+		hint: 'Handles addition of all suitable MidiQOL flags on system statuses and tries to automate specific ones like Charmed',
+		scope: 'world',
+		config: true,
+		default: true,
+		type: Boolean,
+	});
+	game.settings.register('bugs', 'automateChooseEffects', {
+		name: 'Automatically roll for MidiQOL choose effects',
+		hint: 'Handles automatically selecting one of the MidiQOL Choose effects options and applying it. To use, in the Item`s requirements field, type: [auto]',
+		scope: 'world',
+		config: true,
+		default: true,
+		type: Boolean,
+	});
+}
+
+function getAutomateStatusesFlags() {
+	return game.settings.get('bugs', 'automateStatusesFlags');
+}
+
+function getAutomateChooseEffects() {
+	return game.settings.get('bugs', 'automateChooseEffects');
+}
+
+//other Hooks
+Hooks.on('renderDialog', implementAutoMidiChooseEffects);
+Hooks.on('init', registerSettings);
