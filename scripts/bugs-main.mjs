@@ -528,16 +528,16 @@ async function implementAutoMidiChooseEffects(app, html, data) {
 
 function registerSettings() {
 	game.settings.register('bugs', 'automateStatusesFlags', {
-		name: 'Add MidiQOL flags on statuses',
-		hint: 'Handles addition of all suitable MidiQOL flags on system statuses and tries to automate specific ones like Charmed',
+		name: 'BUGS.automateStatusesFlags.name',
+		hint: 'BUGS.automateStatusesFlags.hint',
 		scope: 'world',
 		config: true,
 		default: true,
 		type: Boolean,
 	});
 	game.settings.register('bugs', 'automateChooseEffects', {
-		name: 'Automatically roll for MidiQOL choose effects',
-		hint: 'Handles automatically selecting one of the MidiQOL (12.4.32+) Choose effects options and applying it. To use, in the Item`s requirements field, type: [auto]',
+		name: 'BUGS.automateChooseEffects.name',
+		hint: 'BUGS.automateChooseEffects.hint',
 		scope: 'world',
 		config: true,
 		default: true,
