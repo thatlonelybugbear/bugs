@@ -504,6 +504,8 @@ Hooks.once('midi-qol.ready', () => {
 async function implementAutoMidiChooseEffects(app, html, data) {
 	if (!getAutomateChooseEffects() || !html.hasClass('effectNoTarget')) return;
 	const buttons = html.find('button');
+	const item = fromUuidSync(Object.keys(data.buttons)[0].split('.ActiveEffect')[0]);
+	if (!item?.system.requirements?.includes('[auto]')) return;
 	const numButtons = buttons.length;
 
 	if (numButtons === 0) return;
