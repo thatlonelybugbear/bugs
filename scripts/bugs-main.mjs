@@ -1,6 +1,6 @@
 const MODULE_ID = 'bugs';
 
-let modernRules;
+let modernRules, midiVersion;
 
 function initializeStatusEffects() {
 	const statusEffects = {};
@@ -479,7 +479,6 @@ Hooks.once('midi-qol.ready', () => {
 			}
 		});
 		Hooks.on('preCreateActiveEffect', (ae, aedata) => {
-			console.log('BUGS,', ae);
 			if (ae.parent instanceof CONFIG.Item.documentClass) return true;
 			if (shouldProceed(aedata, 'create')) {
 				const changes = getChanges(ae);
@@ -498,6 +497,8 @@ Hooks.once('midi-qol.ready', () => {
 			}
 		});
 	}
+	midiVersion = game.modules.get('midi-qol').version;
+	if (foundry.utils.isNewerVersion(midiVersion, '12.4.31')) Hooks.on('renderDialog', implementAutoMidiChooseEffects);
 	globalThis.BUGS = BUGS;
 });
 
@@ -536,7 +537,7 @@ function registerSettings() {
 	});
 	game.settings.register('bugs', 'automateChooseEffects', {
 		name: 'Automatically roll for MidiQOL choose effects',
-		hint: 'Handles automatically selecting one of the MidiQOL Choose effects options and applying it. To use, in the Item`s requirements field, type: [auto]',
+		hint: 'Handles automatically selecting one of the MidiQOL (12.4.32+) Choose effects options and applying it. To use, in the Item`s requirements field, type: [auto]',
 		scope: 'world',
 		config: true,
 		default: true,
@@ -553,5 +554,4 @@ function getAutomateChooseEffects() {
 }
 
 //other Hooks
-Hooks.on('renderDialog', implementAutoMidiChooseEffects);
-Hooks.on('init', registerSettings);
+Hooks.once('init', registerSettings);
