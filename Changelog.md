@@ -1,3 +1,6 @@
+## v12.438.3.1
+* Translations updates
+
 ## v12.438.3
 * Added settings for:
  * automatically adding MidiQOL flags in applied system statuses (default on)
