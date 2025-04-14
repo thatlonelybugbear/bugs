@@ -2,7 +2,8 @@
 * Added settings for:
  * automatically adding MidiQOL flags in applied system statuses (default on)
  * automatically rolling and applying one of the MidiQOL (needs v12.4.32+) choose effects (default on)
-   * to trigger this function, add in the Item's requirements field the string `[autoMidiChooseEffects]` 
+   * to trigger this function, add in the Item's requirements field the string `[autoMidiChooseEffects]`
+   * video and images [here](<https://github.com/thatlonelybugbear/bugs/pull/32#issue-2993717699>)
 
 ## v12.438.2
 * Slightly better handling for effect with no available origin.
