@@ -1,3 +1,5 @@
 {
-  "bugs.reactionUsed": "Reazione usata"
+  "BUGS": {
+    "reactionUsed": "Reaction used"
+  }
 }
