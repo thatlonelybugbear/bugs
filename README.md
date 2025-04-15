@@ -1,8 +1,16 @@
 # Bugbear's Scripts
 
 ## Description
-A <b>MidiQOL</b> compatible module which hooks on `preCreateActiveEffect` and `preUpdateActiveEffect`, in order to add the proper `MidiQOL flags` to the system's core status effects for:
+So BUGS is a module that provides some extra functionality when MidiQOL is active.
+For now it will:
+* add the proper MidiQOL flags to the system's status effect, like advantage when attacking a Blinded creature or disadvantage when attacking while being Blinded.
+* add a way for automatically rolling and applying the corresponding effect when using the MidiQOL's Choose Effects functionality (more [here](<https://github.com/thatlonelybugbear/bugs/pull/32#issue-2993717699>)
+
+Supported Status effects:
 - `blinded`,
+- `charmed`: will try to automate:
+  - fail of activities that would do damage to the Charmer
+  - advantage for checks that the Charmer rolls when you have the Charmed creature targeted before rolling!
 - `dodging`,
 - `encumbered`: (legacy rules) Needs the system's setting for `Encumbrance Tracking` set to `Variant (encumbered & heavily encumbered)`,
 - `exhaustion (1-5)`: (legacy rules),
