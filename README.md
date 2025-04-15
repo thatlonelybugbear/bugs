@@ -42,5 +42,6 @@ Every shiny gold coin helps keep the ideas flowing and the goblins at bay.
 
 👉 [Discord Invite Link](<https://discord.gg/KYb74fcsBt>)
 <hr>
+
 ### Special credits
 - Added `images` used by [DFreds](https://github.com/DFreds) and initially sourced from https://game-icons.net/ (CC-BY licence).
