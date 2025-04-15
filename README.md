@@ -33,3 +33,14 @@ For now it will:
 
 ### Special credits
 - Added `images` used by [DFreds](https://github.com/DFreds) and initially sourced from https://game-icons.net/ (CC-BY licence).
+
+<hr>
+If you like what I do, consider supporting this lonely bugbear 🐾
+
+Every shiny gold coin helps keep the ideas flowing and the goblins at bay.
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/thatlonelybugbear)
+
+🏰 You can also join the Bugbear’s Den to hang out, get help, or check what I might be working on!
+
+👉 [Discord Invite Link](<https://discord.gg/KYb74fcsBt>)
