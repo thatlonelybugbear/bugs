@@ -31,9 +31,6 @@ For now it will:
 - `Alternative Exhaustion 5e`: If that module is active, it will handle all the exhaustion effects and no MidiQOL flags will be added.
 - v12.438.1+ needs D&D5e 4.3.x
 
-### Special credits
-- Added `images` used by [DFreds](https://github.com/DFreds) and initially sourced from https://game-icons.net/ (CC-BY licence).
-
 <hr>
 If you like what I do, consider supporting this lonely bugbear 🐾
 
@@ -44,3 +41,6 @@ Every shiny gold coin helps keep the ideas flowing and the goblins at bay.
 🏰 You can also join the Bugbear’s Den to hang out, get help, or check what I might be working on!
 
 👉 [Discord Invite Link](<https://discord.gg/KYb74fcsBt>)
+<hr>
+### Special credits
+- Added `images` used by [DFreds](https://github.com/DFreds) and initially sourced from https://game-icons.net/ (CC-BY licence).
