@@ -1,5 +1,13 @@
 {
   "BUGS": {
-    "reactionUsed": "Reação Usada"
+    "reactionUsed": "Reação Usada",
+    "automateChooseEffects": {
+      "name": "Rolar Efeitos de Escolha do MidiQOL",
+      "hint": "Lida automaticamente com a seleção de uma das opções de efeitos do MidiQOL (12.4.32+) e sua aplicação. Para usar, digite no campo 'Pré-requisitos' do item: [autoMidiChooseEffects]"
+    },
+    "automateStatusesFlags": {
+      "name": "Adicionar Flags do MidiQOL nos Status",
+      "hint": "Lida com a adição de todas as flags do MidiQOL adequadas nos status do sistema e tenta automatizar algumass específicas, como Enfeitiçado."
+    }
   }
 }
