@@ -12,8 +12,8 @@ Supported Status effects:
   - fail of activities that would do damage to the Charmer
   - advantage for checks when the Charmer has the Charmed creature targeted before rolling!
 - `dodging`,
-- `encumbered`: (legacy rules) Needs the system's setting for `Encumbrance Tracking` set to `Variant (encumbered & heavily encumbered)`,
-- `exhaustion (1-5)`: (legacy rules),
+- `encumbered`: when the system is set to legacy 5e rules and also `Encumbrance Tracking` set to `Variant (encumbered & heavily encumbered)`,
+- `exhaustion (1-5)`: when the system is set to legacy 5e rules,
 - `frightened`,
 - `invisible`,
 - `paralyzed`,
