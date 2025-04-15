@@ -1,3 +1,6 @@
+## v12.438.3.2
+* More translations updates, thanks to [GregoryWarn](<https://github.com/GregoryWarn>) and [Kharmans](<https://github.com/Kharmans>)
+  
 ## v12.438.3.1
 * Translations updates
 
