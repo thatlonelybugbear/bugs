@@ -1,6 +1,4 @@
-# Bugbear's Scripts
-
-## Description
+# Bugbear's Scripts (BUGS)
 So BUGS is a module that provides some extra functionality when MidiQOL is active.
 For now it will:
 * add the proper MidiQOL flags to the system's status effect, like advantage when attacking a Blinded creature or disadvantage when attacking while being Blinded.
@@ -28,10 +26,10 @@ For now it will:
 - `unconscious`.
 </details>
 
-## Compatibility notes.
+### Compatibility notes
 - `Rest Recovery`: Provides exhaustion automation (when that setting is enabled it will take priority; NEEDS to reload Foundry if you change any relevant settings in RR).
 - `Alternative Exhaustion 5e`: If that module is active, it will handle all the exhaustion effects and no MidiQOL flags will be added.
 - v12.438.1+ needs D&D5e 4.3.x
 
-## Special credits.
+### Special credits
 - Added `images` used by [DFreds](https://github.com/DFreds) and initially sourced from https://game-icons.net/ (CC-BY licence).
