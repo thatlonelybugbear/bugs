@@ -1,5 +1,13 @@
 {
   "BUGS": {
-    "reactionUsed": "Reazione usata"
+    "reactionUsed": "Reazione usata",
+    "automateChooseEffects": {
+      "name": "Tiro automatico per scelta effetti MidiQOL",
+      "hint": "Gestisce la selezione automatica di una delle opzioni di effetti MidiQOL (12.4.32+) e la sua applicazione. Per utilizzarla, digitare nel campo Requisiti elemento: [autoMidiChooseEffects]"
+    },
+    "automateStatusesFlags": {
+      "name": "Aggiungere flag MidiQOL sugli stati",
+      "hint": "Gestisce l'aggiunta di tutti i flag MidiQOL adatti sugli stati di sistema e cerca di automatizzare quelli specifici come Affascinato"
+    }
   }
 }
