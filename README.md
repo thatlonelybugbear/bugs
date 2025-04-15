@@ -8,7 +8,7 @@ For now it will:
 
 Supported Status effects:
 - `blinded`,
-- `charmed`: will try to automate:
+- `charmed` will try to automate:
   - fail of activities that would do damage to the Charmer
   - advantage for checks that the Charmer rolls when you have the Charmed creature targeted before rolling!
 - `dodging`,
