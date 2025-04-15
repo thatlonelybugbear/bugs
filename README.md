@@ -10,7 +10,7 @@ Supported Status effects:
 - `blinded`,
 - `charmed` will try to automate:
   - fail of activities that would do damage to the Charmer
-  - advantage for checks that the Charmer rolls when you have the Charmed creature targeted before rolling!
+  - advantage for checks when the Charmer has the Charmed creature targeted before rolling!
 - `dodging`,
 - `encumbered`: (legacy rules) Needs the system's setting for `Encumbrance Tracking` set to `Variant (encumbered & heavily encumbered)`,
 - `exhaustion (1-5)`: (legacy rules),
