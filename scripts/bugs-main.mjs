@@ -525,7 +525,7 @@ async function implementAutoMidiChooseEffects(app, html, data) {
 
 	const roll = await new Roll(`1d${numButtons}`).evaluate();
 	const result = roll.total - 1;
-	await game.dice3d.showForRoll(roll, game.user, true);
+	await game.dice3d?.showForRoll(roll, game.user, true);
 	const buttonToClick = buttons.eq(result);
 	buttonToClick.css({
 		outline: '3px solid orange',
