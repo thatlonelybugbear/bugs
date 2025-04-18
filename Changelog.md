@@ -1,3 +1,6 @@
+## v12.439.2.1
+* `game.dice3d` can be undefined
+
 ## v12.439.2
 * For auto rolling MidiQOL Choose effects, you can now add `[autoMidiChooseEffects]` in all item description fields.
   * (in a future release it will be added in a per activity capacity, but I am waiting on some changes in MidiQOL for that).
