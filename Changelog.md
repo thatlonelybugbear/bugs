@@ -1,3 +1,6 @@
+## v12.438.4
+* Added Surprised for modern rules (disadvantage on initiative)
+
 ## v12.438.3.2
 * More translations updates, thanks to [GregoryWarn](<https://github.com/GregoryWarn>) and [Kharmans](<https://github.com/Kharmans>)
   
