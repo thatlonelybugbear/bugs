@@ -1,5 +1,6 @@
-## v12.438.4
+## v12.439.1
 * Added Surprised for modern rules (disadvantage on initiative)
+* D&D5e v4.3.9 verified
 
 ## v12.438.3.2
 * More translations updates, thanks to [GregoryWarn](<https://github.com/GregoryWarn>) and [Kharmans](<https://github.com/Kharmans>)
