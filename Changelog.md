@@ -1,3 +1,7 @@
+## v12.439.2
+* Added check for `[autoMidiChooseEffects]` in all item description fields
+  * (in a future release it will be added in a per activity capacity, but I am waiting on some changes in MidiQOL for that).
+
 ## v12.439.1
 * Added Surprised for modern rules (disadvantage on initiative)
 * D&D5e v4.3.9 verified
