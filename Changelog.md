@@ -1,5 +1,5 @@
 ## v12.439.2
-* Added check for `[autoMidiChooseEffects]` in all item description fields
+* For auto rolling MidiQOL Choose effects, you can now add `[autoMidiChooseEffects]` in all item description fields.
   * (in a future release it will be added in a per activity capacity, but I am waiting on some changes in MidiQOL for that).
 
 ## v12.439.1
