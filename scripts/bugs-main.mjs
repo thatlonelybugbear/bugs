@@ -365,6 +365,17 @@ function initializeStatusEffects() {
 			},
 		],
 	};
+	if (modernRules) {
+		statusEffects[staticID('surprised')] = {
+			changes: [
+				{
+					key: 'flags.dnd5e.initiativeDisadv',
+					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+					value: '1',
+				},
+			],
+		};
+	};
 	statusEffects[staticID('unconscious')] = {
 		changes: [
 			{
