@@ -517,7 +517,8 @@ async function implementAutoMidiChooseEffects(app, html, data) {
 	if (!getAutomateChooseEffects() || !html.hasClass('effectNoTarget')) return;
 	const buttons = html.find('button');
 	const item = fromUuidSync(Object.keys(data.buttons)[0].split('.ActiveEffect')[0]);
-	if (!item?.system.requirements?.includes('[autoMidiChooseEffects]')) return;
+	const isAutoMidiChooseEffects = item?.system.requirements?.includes('[autoMidiChooseEffects]') || item?.system.description?.value.includes('[autoMidiChooseEffects]') || item?.system.description?.chat.includes('[autoMidiChooseEffects]');
+	if (!isAutoMidiChooseEffects) return;
 	const numButtons = buttons.length;
 
 	if (numButtons === 0) return;
