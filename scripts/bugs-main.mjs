@@ -517,7 +517,7 @@ async function implementAutoMidiChooseEffects(app, html, data) {
 	if (!getAutomateChooseEffects() || !html.hasClass('effectNoTarget')) return;
 	
 	const string = '[autoMidiChooseEffects]';
-	const activity = app?.data?.midiOptions?.activity ?? undefined;
+	const activity = foundry.utils.isNewerVersion(midiVersion, '12.4.43') ? app?.data?.midiOptions?.activity : undefined;
 	const item = activity?.item ?? fromUuidSync(Object.keys(data.buttons)[0].split('.ActiveEffect')[0]);
 	const isAutoMidiChooseEffects = 
 		activity?.description?.chatFlavor?.includes(string)
