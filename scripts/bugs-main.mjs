@@ -51,12 +51,12 @@ function initializeStatusEffects() {
 			{
 				key: 'flags.midi-qol.grants.disadvantage.attack.all',
 				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: 'target?.canSee && !["incapacitated","grappled","paralyzed","petrified","restrained","stunned","unconscious"].some(el=>target?.statuses[el]))',
+				value: 'target?.canSee && !["incapacitated","grappled","paralyzed","petrified","restrained","stunned","unconscious"].some(el=>target?.statuses[el])',
 			},
 			{
 				key: 'flags.midi-qol.advantage.ability.save.dex',
 				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: 'target?.canSee && !["incapacitated","grappled","paralyzed","petrified","restrained","stunned","unconscious"].some(el=>target?.statuses[el]))',
+				value: 'target?.canSee && !["incapacitated","grappled","paralyzed","petrified","restrained","stunned","unconscious"].some(el=>target?.statuses[el])',
 			},
 		],
 	};
