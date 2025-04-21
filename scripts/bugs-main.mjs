@@ -515,9 +515,14 @@ Hooks.once('midi-qol.ready', () => {
 
 async function implementAutoMidiChooseEffects(app, html, data) {
 	if (!getAutomateChooseEffects() || !html.hasClass('effectNoTarget')) return;
+	const string = '[autoMidiChooseEffects]';
 	const buttons = html.find('button');
 	const item = fromUuidSync(Object.keys(data.buttons)[0].split('.ActiveEffect')[0]);
-	const isAutoMidiChooseEffects = item?.system.requirements?.includes('[autoMidiChooseEffects]') || item?.system.description?.value.includes('[autoMidiChooseEffects]') || item?.system.description?.chat.includes('[autoMidiChooseEffects]');
+	const isAutoMidiChooseEffects = 
+		item?.system?.requirements?.includes(string) 
+		|| item?.system?.description?.value.includes(string) 
+		|| item?.system?.description?.chat.includes(string)
+		|| item?.system?.unidentified?.descriptio.includes(string);
 	if (!isAutoMidiChooseEffects) return;
 	const numButtons = buttons.length;
 
