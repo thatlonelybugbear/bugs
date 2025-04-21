@@ -2,6 +2,7 @@
 * From MidiQOL 12.4.44 you will able to use a per activity trigger. Adding `[autoMidiChooseEffects]` in a specific activity's Chat Flavor, will allow for that one only to trigger the Choose effects function, and there will not be a need to add anything on a per item basis.
 * Until then and for extra choices, you can also add the `[autoMidiChooseEffects]` in the unidentified item's description field among other fields already available.
 * Fix for Dodging adding an extra `)` and the evaluation failing as a result.
+* Adding a hook `BUGS.ready` called when BUGS has finished initializing, which can be called by other modules to subsequently change as/if needed the `BUGS.statusEffects`. Any changes in that object will be picked up when applying the relevant conditions.
 
 ## v12.439.2.1
 * `game.dice3d` can be undefined
