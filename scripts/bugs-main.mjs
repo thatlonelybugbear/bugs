@@ -511,6 +511,8 @@ Hooks.once('midi-qol.ready', () => {
 	midiVersion = game.modules.get('midi-qol').version;
 	if (foundry.utils.isNewerVersion(midiVersion, '12.4.31')) Hooks.on('renderDialog', implementAutoMidiChooseEffects);
 	globalThis.BUGS = BUGS;
+
+	Hooks.callAll('BUGS.ready');
 });
 
 async function implementAutoMidiChooseEffects(app, html, data) {
