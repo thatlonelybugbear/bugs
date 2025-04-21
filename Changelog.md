@@ -1,3 +1,6 @@
+## v12.439.3
+* Now you can also add the `[autoMidiChooseEffects]` in the unidentified item's description field.
+
 ## v12.439.2.1
 * `game.dice3d` can be undefined
 
