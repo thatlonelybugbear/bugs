@@ -1,3 +1,7 @@
+## v12.439.5
+* Added handling for rolling `1dc` if Dice so Nice module is active and only 2 available effects to choose from for `[autoMidiChooseEffects]`.
+* If Dice so Nice module is not active, a message with the roll's details will be created to give some sense to what's happening.
+  
 ## v12.439.4
 * Allow changing the BUGS settings for applying MidiQOL flags on system conditions, on the fly without a reload needed.
 
