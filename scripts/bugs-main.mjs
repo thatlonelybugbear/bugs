@@ -531,10 +531,23 @@ async function implementAutoMidiChooseEffects(app, html, data) {
 	const numButtons = buttons.length;
 
 	if (numButtons === 0) return;
-
-	const roll = await new Roll(`1d${numButtons}`).evaluate();
-	const result = roll.total - 1;
-	await game.dice3d?.showForRoll(roll, game.user, true);
+	
+	let result, timeout;	
+	if (numButtons === 1) result = 0;
+	else {
+		const formula = numButtons === 2 && game.dice3d ? '1dc' : `1d${numButtons}`;
+		const roll = await new Roll(formula);
+		if (!game.dice3d) {
+			await roll.toMessage({flavor: `Rolling to randomly pick one of the ${numButtons} available effects to apply for ${activity ? activity.name : item.name}`});
+			timeout = 1500;
+		}
+		else {
+			await roll.evaluate();
+			await game.dice3d?.showForRoll(roll, game.user, true);
+			timeout = 1000;
+		};
+		result = roll.total - 1;
+	}
 	const buttonToClick = buttons.eq(result);
 	buttonToClick.css({
 		outline: '3px solid orange',
@@ -544,7 +557,7 @@ async function implementAutoMidiChooseEffects(app, html, data) {
 	//should add a nice chat message too or something that makes sense. Maybe update the Item's chat card with the roll data
 	setTimeout(() => {
 		buttonToClick.trigger('click');
-	}, 1000);
+	}, timeout);
 }
 
 function registerSettings() {
