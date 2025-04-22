@@ -1,3 +1,6 @@
+## v12.439.4
+* Allow changing the BUGS settings for applying MidiQOL flags on system conditions, on the fly without a reload needed.
+
 ## v12.439.3
 * From MidiQOL 12.4.44 you will able to use a per activity trigger. Adding `[autoMidiChooseEffects]` in a specific activity's Chat Flavor, will allow for that one only to trigger the Choose effects function, and there will not be a need to add anything on a per item basis.
 * Until then and for extra choices, you can also add the `[autoMidiChooseEffects]` in the unidentified item's description field among other fields already available.
