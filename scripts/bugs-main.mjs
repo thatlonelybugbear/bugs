@@ -420,7 +420,7 @@ function staticID(id) {
 }
 
 function shouldProceed(check, hook) {
-	return (!check.flags?.dnd5e?.exhaustionLevel && hook == 'create') || (!modernRules && check.flags?.dnd5e?.exhaustionLevel && !game.modules.get('alternative-exhaustion-5e')?.active && (!game.modules.get('rest-recovery')?.active || !game.settings.get('rest-recovery', 'one-dnd-exhaustion')));
+	return getAutomateStatusesFlags() && ((!check.flags?.dnd5e?.exhaustionLevel && hook == 'create') || (!modernRules && check.flags?.dnd5e?.exhaustionLevel && !game.modules.get('alternative-exhaustion-5e')?.active && (!game.modules.get('rest-recovery')?.active || !game.settings.get('rest-recovery', 'one-dnd-exhaustion'))));
 }
 
 function gameVersion(ver) {
@@ -481,33 +481,31 @@ Hooks.once('midi-qol.ready', () => {
 	const BUGS = {};
 	BUGS.info = { module: "Bugbear's Scripts", version: game.modules.get('bugs')?.version, modernRules };
 	BUGS.helpers = { getEffectOriginToken, getEffectParentToken, staticID };
-	if (getAutomateStatusesFlags) {
-		BUGS.statusEffects = initializeStatusEffects();
-		Hooks.on('preUpdateActiveEffect', (ae, updates) => {
-			if (shouldProceed(updates, 'update')) {
-				const exhaustionLevel = updates.flags.dnd5e.exhaustionLevel === 1 ? '' : updates.flags.dnd5e.exhaustionLevel;
-				updates.changes = getChanges(staticID(`exhaustion${exhaustionLevel}`));
-			}
-		});
-		Hooks.on('preCreateActiveEffect', (ae, aedata) => {
-			if (ae.parent instanceof CONFIG.Item.documentClass) return true;
-			if (shouldProceed(aedata, 'create')) {
-				const changes = getChanges(ae);
-				if (!changes || foundry.utils.isEmpty(changes)) return true;
-				changes.filter((change) => {
-					const hasOriginTokenUuid = change.value.includes('originTokenUuid');
-					const hasOriginTokenId = change.value.includes('originTokenId');
-					const hasOriginToken = change.value.includes('originToken');
-					if (hasOriginTokenUuid) change.value = change.value.replaceAll('originTokenUuid', `"${getEffectOriginToken(ae, 'uuid')}"`);
-					if (hasOriginTokenId) change.value = change.value.replaceAll('originTokenId', `"${getEffectOriginToken(ae, 'id')}"`);
-					if (hasOriginToken) change.value = change.value.replaceAll('originToken', `"${getEffectOriginToken(ae, 'token')}"`);
-					const hasEffectTokenUuid = change.value.includes('effectTokenUuid');
-					if (hasEffectTokenUuid) change.value = change.value.replaceAll('effectTokenUuid', `"${getEffectParentToken(ae.parent, 'uuid')}"`);
-				});
-				ae.updateSource({ changes: aedata.changes.concat(changes) });
-			}
-		});
-	}
+	BUGS.statusEffects = initializeStatusEffects();
+	Hooks.on('preUpdateActiveEffect', (ae, updates) => {
+		if (shouldProceed(updates, 'update')) {
+			const exhaustionLevel = updates.flags.dnd5e.exhaustionLevel === 1 ? '' : updates.flags.dnd5e.exhaustionLevel;
+			updates.changes = getChanges(staticID(`exhaustion${exhaustionLevel}`));
+		}
+	});
+	Hooks.on('preCreateActiveEffect', (ae, aedata) => {
+		if (ae.parent instanceof CONFIG.Item.documentClass) return true;
+		if (shouldProceed(aedata, 'create')) {
+			const changes = getChanges(ae);
+			if (!changes || foundry.utils.isEmpty(changes)) return true;
+			changes.filter((change) => {
+				const hasOriginTokenUuid = change.value.includes('originTokenUuid');
+				const hasOriginTokenId = change.value.includes('originTokenId');
+				const hasOriginToken = change.value.includes('originToken');
+				if (hasOriginTokenUuid) change.value = change.value.replaceAll('originTokenUuid', `"${getEffectOriginToken(ae, 'uuid')}"`);
+				if (hasOriginTokenId) change.value = change.value.replaceAll('originTokenId', `"${getEffectOriginToken(ae, 'id')}"`);
+				if (hasOriginToken) change.value = change.value.replaceAll('originToken', `"${getEffectOriginToken(ae, 'token')}"`);
+				const hasEffectTokenUuid = change.value.includes('effectTokenUuid');
+				if (hasEffectTokenUuid) change.value = change.value.replaceAll('effectTokenUuid', `"${getEffectParentToken(ae.parent, 'uuid')}"`);
+			});
+			ae.updateSource({ changes: aedata.changes.concat(changes) });
+		}
+	});
 	midiVersion = game.modules.get('midi-qol').version;
 	if (foundry.utils.isNewerVersion(midiVersion, '12.4.31')) Hooks.on('renderDialog', implementAutoMidiChooseEffects);
 	globalThis.BUGS = BUGS;
