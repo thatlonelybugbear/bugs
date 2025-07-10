@@ -26,11 +26,11 @@ function initializeStatusEffects() {
 					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 					value: 'nonWorkflowTargetedToken === effectTokenUuid',
 				},
-				{
-					key: 'flags.midi-qol.fail.all',
-					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-					value: 'hasDamage && targetUuid === originTokenUuid',
-				},
+				// {
+				// 	key: 'flags.midi-qol.fail.all',
+				// 	mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+				// 	value: 'hasDamage && targetUuid === originTokenUuid',
+				// },
 			],
 			nonorigin: [
 				{
@@ -38,11 +38,11 @@ function initializeStatusEffects() {
 					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 					value: 'nonWorkflowTargetedToken === effectTokenUuid',
 				},
-				{
-					key: 'flags.midi-qol.fail.all',
-					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-					value: 'confirm("Is this roll against the Charmed status source?")',
-				},
+				// {
+				// 	key: 'flags.midi-qol.fail.all',
+				// 	mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+				// 	value: 'confirm("Is this roll against the Charmed status source?")',
+				// },
 			],
 		},
 	};
