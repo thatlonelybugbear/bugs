@@ -1,3 +1,7 @@
+## v13.346.1
+* Compatibility bump
+* Fix for some conditions not populating changes
+
 ## v12.439.5
 * Added handling for rolling `1dc` instead of `1d2`, if Dice so Nice module is active and only 2 available effects to choose from for `[autoMidiChooseEffects]`.
 * If Dice so Nice module is not active, a message with the roll's details will be created to give some sense to what's happening.
