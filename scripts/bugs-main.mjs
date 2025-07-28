@@ -494,6 +494,7 @@ Hooks.once('midi-qol.ready', () => {
 			const changes = getChanges(ae);
 			if (!changes || foundry.utils.isEmpty(changes)) return true;
 			changes.filter((change) => {
+				if (typeof(change.value) !== 'string') return false;
 				const hasOriginTokenUuid = change.value.includes('originTokenUuid');
 				const hasOriginTokenId = change.value.includes('originTokenId');
 				const hasOriginToken = change.value.includes('originToken');
