@@ -80,53 +80,10 @@ function initializeStatusEffects() {
 				},
 			],
 		};
-		statusEffects[staticID('exhaustion')] = {
-			changes: [
-				{
-					key: 'flags.midi-qol.disadvantage.ability.check.all',
-					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-					value: '1',
-				},
-				{
-					key: 'flags.dnd5e.initiativeDisadv',
-					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-					value: '1',
-				},
-			],
-		};
-		statusEffects[staticID('exhaustion2')] = {
-			changes: [
-				{
-					key: 'flags.midi-qol.disadvantage.ability.check.all',
-					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-					value: '1',
-				},
-				{
-					key: 'flags.dnd5e.initiativeDisadv',
-					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-					value: '1',
-				},
-			],
-		};
 		statusEffects[staticID('exhaustion3')] = {
 			changes: [
 				{
-					key: 'flags.midi-qol.disadvantage.ability.check.all',
-					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-					value: '1',
-				},
-				{
-					key: 'flags.dnd5e.initiativeDisadv',
-					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-					value: '1',
-				},
-				{
 					key: 'flags.midi-qol.disadvantage.attack.all',
-					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-					value: '1',
-				},
-				{
-					key: 'flags.midi-qol.disadvantage.ability.save.all',
 					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 					value: '1',
 				},
@@ -135,22 +92,7 @@ function initializeStatusEffects() {
 		statusEffects[staticID('exhaustion4')] = {
 			changes: [
 				{
-					key: 'flags.midi-qol.disadvantage.ability.check.all',
-					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-					value: '1',
-				},
-				{
-					key: 'flags.dnd5e.initiativeDisadv',
-					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-					value: '1',
-				},
-				{
 					key: 'flags.midi-qol.disadvantage.attack.all',
-					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-					value: '1',
-				},
-				{
-					key: 'flags.midi-qol.disadvantage.ability.save.all',
 					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 					value: '1',
 				},
@@ -159,22 +101,7 @@ function initializeStatusEffects() {
 		statusEffects[staticID('exhaustion5')] = {
 			changes: [
 				{
-					key: 'flags.midi-qol.disadvantage.ability.check.all',
-					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-					value: '1',
-				},
-				{
-					key: 'flags.dnd5e.initiativeDisadv',
-					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-					value: '1',
-				},
-				{
 					key: 'flags.midi-qol.disadvantage.attack.all',
-					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-					value: '1',
-				},
-				{
-					key: 'flags.midi-qol.disadvantage.ability.save.all',
 					mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 					value: '1',
 				},
@@ -292,11 +219,6 @@ function initializeStatusEffects() {
 				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
 				value: '1',
 			},
-			{
-				key: 'flags.midi-qol.disadvantage.ability.check.all',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
 		],
 	};
 	statusEffects[staticID('prone')] = {
@@ -320,11 +242,6 @@ function initializeStatusEffects() {
 	};
 	statusEffects[staticID('restrained')] = {
 		changes: [
-			{
-				key: 'flags.midi-qol.disadvantage.ability.save.dex',
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: '1',
-			},
 			{
 				key: 'flags.midi-qol.disadvantage.attack.all',
 				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
