@@ -1,3 +1,8 @@
+## v13.512.1
+* Compatibility with v5.1.2 5e system version.
+  * For pre v5.1 please use BUGS v13.504.1
+* Removal of flags for statuses that are automated by the system.
+
 ## v13.504.1
 * Compatibility bump
 * Fix for some conditions not populating changes
