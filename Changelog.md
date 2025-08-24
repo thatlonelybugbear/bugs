@@ -1,3 +1,6 @@
+## v13.512.2
+* Manifest URL fix
+
 ## v13.512.1
 * Compatibility with v5.1.2 5e system version.
   * For pre v5.1 please use BUGS v13.504.1
