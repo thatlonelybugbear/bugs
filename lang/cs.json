@@ -1,0 +1,13 @@
+{
+  "BUGS": {
+    "reactionUsed": "Použitá reakce",
+    "automateChooseEffects": {
+      "name": "Házet automaticky efekty vybrané v MidiQoL?",
+      "hint": "Automaticky vybírá jednu z možností vybraných v MidiQoL (12.4.32+) a aplikuje ji. Pro použití napiš do pole požadavků položky: [autoMidiChooseEffects]."
+    },
+    "automateStatusesFlags": {
+      "name": "Přidávat příznaky MidiQoL ke stavům?",
+      "hint": "Zajišťuje přidání všech vhodných příznaků MidiQoL k systémovým stavům a pokouší se některé automatizovat, třeba stav zmámený/á."
+    }
+  }
+}
