@@ -432,7 +432,7 @@ Hooks.once('midi-qol.ready', () => {
 });
 
 async function implementAutoMidiChooseEffects(app, html, data) {
-	if (!getAutomateChooseEffects() || !html.hasClass('effectNoTarget')) return;
+	if (!getAutomateChooseEffects() || !app.element.hasClass('effectNoTarget')) return;
 	
 	const string = '[autoMidiChooseEffects]';
 	const activity = foundry.utils.isNewerVersion(midiVersion, '12.4.43') ? app?.data?.midiOptions?.activity : undefined;
@@ -445,7 +445,7 @@ async function implementAutoMidiChooseEffects(app, html, data) {
 		|| item?.system?.unidentified?.description.includes(string);
 	if (!isAutoMidiChooseEffects) return;
 	
-	const buttons = html.find('button');
+	const buttons = app.element[0].querySelectorAll('button');
 	const numButtons = buttons.length;
 
 	if (numButtons === 0) return;
@@ -454,27 +454,18 @@ async function implementAutoMidiChooseEffects(app, html, data) {
 	if (numButtons === 1) result = 0;
 	else {
 		const formula = numButtons === 2 && game.dice3d ? '1dc' : `1d${numButtons}`;
-		const roll = await new Roll(formula);
-		if (!game.dice3d) {
-			await roll.toMessage({flavor: `Rolling to randomly pick one of the ${numButtons} available effects to apply for ${activity ? activity.name : item.name}`});
-			timeout = 1500;
-		}
-		else {
-			await roll.evaluate();
-			await game.dice3d?.showForRoll(roll, game.user, true);
-			timeout = 1000;
-		};
-		result = roll.total - 1;
+		const roll = new Roll(formula);
+		await roll.toMessage({flavor: `Rolling to randomly pick one of the ${numButtons} available effects to apply for ${activity ? activity.name : item.name}`});
+		timeout = 1500;
+		result = game.dice3d ? roll.total : roll.total - 1;
 	}
-	const buttonToClick = buttons.eq(result);
-	buttonToClick.css({
-		outline: '3px solid orange',
-		transition: 'outline 0.3s ease-in-out',
-	});
+	const buttonToClick = buttons[result];
+	buttonToClick.style.outline = "3px solid orange";
+	buttonToClick.style.transition = "outline 0.3s ease-in-out"
 	console.log(`Auto-selecting button #${result + 1} in 1 second...`);
 	//should add a nice chat message too or something that makes sense. Maybe update the Item's chat card with the roll data
 	setTimeout(() => {
-		buttonToClick.trigger('click');
+		 buttonToClick.click();
 	}, timeout);
 }
 
