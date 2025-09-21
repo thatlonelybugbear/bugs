@@ -1,3 +1,8 @@
+## v13.519.1
+* `[autoMidiChooseEffects]` cleanup
+* Foundry v13.348 and d&d5e v5.1.9 verification
+  * Minor update, in anticipation of adding compendiums of homebrew items!
+
 ## v13.512.2
 * Manifest URL fix
 
