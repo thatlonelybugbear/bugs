@@ -2,7 +2,7 @@
 * `[autoMidiChooseEffects]` cleanup
 * Foundry v13.348 and d&d5e v5.1.9 verification
   * Minor update, in anticipation of adding compendiums of homebrew items!
-* Added Czech translation by [Lethrendis](https://github.com/Lethrendis/) 🤗
+* Added Czech translation by [Lethrendis](<https://github.com/Lethrendis/>) 🤗
 
 ## v13.512.2
 * Manifest URL fix
