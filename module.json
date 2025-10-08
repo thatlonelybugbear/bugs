@@ -2,7 +2,7 @@
     "id": "bugs",
     "title": "Bugbear's Scripts",
     "description": "A small module for Foundry and Dnd5e which contains scripts thislonelybugbear finds useful.",
-    "version": "13.519.1",
+    "version": "13.519.2",
     "authors": [
         {
             "name": "thatlonelybugbear",
@@ -14,7 +14,7 @@
     "compatibility": {
         "minimum": "13",
         "maximum": "13",
-        "verified": "13.348"
+        "verified": "13.350"
     },
     "esmodules": ["scripts/bugs-main.mjs"],
     "relationships": {
@@ -66,10 +66,37 @@
             "paths": ["lang/en.json"]
         }
     },
+    "packs": [
+        {
+            "name": "bugs-alindrena",
+            "label": "Alindrena",
+            "path": "packs/bugs-alindrena",
+            "type": "Item",
+            "module": "bugs",
+            "sorting": "m"
+        }
+    ],
+    "packfolders": [
+        {
+            "name": "Bugbears Scripts",
+            "sorting": "a",
+            "color": "#348f2d",
+            "folders": [
+                {
+                    "name": "Homebrew Items",
+                    "sorting": "a",
+                    "color": "#348f2d",
+                    "packs": [
+                        "bugs-alindrena"
+                    ]
+                }
+            ]
+        }
+    ],
     "bugs": "https://github.com/thatlonelybugbear/bugs/issues",
     "url": "https://github.com/thatlonelybugbear/bugs",
     "license": "https://raw.githubusercontent.com/thatlonelybugbear/bugs/main/LICENSE",
     "manifest": "https://github.com/thatlonelybugbear/bugs/releases/latest/download/module.json",
-    "download": "https://github.com/thatlonelybugbear/bugs/releases/download/v13.519.1/module.zip",
+    "download": "https://github.com/thatlonelybugbear/bugs/releases/download/v13.519.2/module.zip",
     "changelog": "https://raw.githubusercontent.com/thatlonelybugbear/bugs/main/Changelog.md"
 }
