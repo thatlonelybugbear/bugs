@@ -85,7 +85,7 @@
                 {
                     "name": "Homebrew Items",
                     "sorting": "a",
-                    "color": "#348f2d",
+                    "color": "#2d538f",
                     "packs": [
                         "bugs-alindrena"
                     ]
