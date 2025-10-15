@@ -1,3 +1,7 @@
+## v13.519.3
+* Added packs of homebrew items
+  * For more come by Bugbear's Den <https://discord.gg/KYb74fcsBt>
+
 ## v13.519.1
 * `[autoMidiChooseEffects]` cleanup
 * Foundry v13.348 and d&d5e v5.1.9 verification
