@@ -9,5 +9,9 @@
       "name": "Add MidiQOL flags on statuses",
       "hint": "Handles addition of all suitable MidiQOL flags on system statuses and tries to automate specific ones like Charmed"
     }
+    "automateHomebrewAdvancement": {
+      "name": "Automatic homebrew items advanvement",
+      "hint": "Handles automatically updating relevant items when actors level up or down"
+    }
   }
 }
