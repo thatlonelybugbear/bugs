@@ -482,8 +482,8 @@ function registerSettings() {
 		type: Boolean,
 	});
 	game.settings.register('bugs', 'autoUpdateHombrewItems', {
-		name: 'BUGS.automateChooseEffects.name',
-		hint: 'BUGS.automateChooseEffects.hint',
+		name: 'BUGS.automateHomebrewAdvancement.name',
+		hint: 'BUGS.automateHomebrewAdvancement.hint',
 		scope: 'world',
 		config: true,
 		default: true,
