@@ -1,3 +1,6 @@
+## v13.519.3.1
+* Translation fixes
+
 ## v13.519.3
 * Added packs of homebrew items
   * For more come by Bugbear's Den <https://discord.gg/KYb74fcsBt>
