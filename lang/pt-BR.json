@@ -8,6 +8,10 @@
     "automateStatusesFlags": {
       "name": "Adicionar Flags do MidiQOL nos Status",
       "hint": "Lida com a adição de todas as flags do MidiQOL adequadas nos status do sistema e tenta automatizar algumass específicas, como Enfeitiçado."
+    },
+    "automateHomebrewAdvancement": {
+      "name": "Evolução de Itens Homebrew",
+      "hint": "Trata automaticamente a atualização de itens relevantes quando os atores sobem ou descem de nível."
     }
   }
 }
