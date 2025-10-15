@@ -292,7 +292,7 @@ function initializeStatusEffects() {
 				},
 			],
 		};
-	};
+	}
 	statusEffects[staticID('unconscious')] = {
 		changes: [
 			{
@@ -411,7 +411,7 @@ Hooks.once('midi-qol.ready', () => {
 			const changes = getChanges(ae);
 			if (!changes || foundry.utils.isEmpty(changes)) return true;
 			changes.filter((change) => {
-				if (typeof(change.value) !== 'string') return false;
+				if (typeof change.value !== 'string') return false;
 				const hasOriginTokenUuid = change.value.includes('originTokenUuid');
 				const hasOriginTokenId = change.value.includes('originTokenId');
 				const hasOriginToken = change.value.includes('originToken');
@@ -433,39 +433,34 @@ Hooks.once('midi-qol.ready', () => {
 
 async function implementAutoMidiChooseEffects(app, html, data) {
 	if (!getAutomateChooseEffects() || !app.element.hasClass('effectNoTarget')) return;
-	
+
 	const string = '[autoMidiChooseEffects]';
 	const activity = foundry.utils.isNewerVersion(midiVersion, '12.4.43') ? app?.data?.midiOptions?.activity : undefined;
 	const item = activity?.item ?? fromUuidSync(Object.keys(data.buttons)[0].split('.ActiveEffect')[0]);
-	const isAutoMidiChooseEffects = 
-		activity?.description?.chatFlavor?.includes(string)
-		|| item?.system?.requirements?.includes(string) 
-		|| item?.system?.description?.value.includes(string) 
-		|| item?.system?.description?.chat.includes(string)
-		|| item?.system?.unidentified?.description.includes(string);
+	const isAutoMidiChooseEffects = activity?.description?.chatFlavor?.includes(string) || item?.system?.requirements?.includes(string) || item?.system?.description?.value.includes(string) || item?.system?.description?.chat.includes(string) || item?.system?.unidentified?.description.includes(string);
 	if (!isAutoMidiChooseEffects) return;
-	
+
 	const buttons = app.element[0].querySelectorAll('button');
 	const numButtons = buttons.length;
 
 	if (numButtons === 0) return;
-	
-	let result, timeout;	
+
+	let result, timeout;
 	if (numButtons === 1) result = 0;
 	else {
 		const formula = numButtons === 2 && game.dice3d ? '1dc' : `1d${numButtons}`;
 		const roll = new Roll(formula);
-		await roll.toMessage({flavor: `Rolling to randomly pick one of the ${numButtons} available effects to apply for ${activity ? activity.name : item.name}`});
+		await roll.toMessage({ flavor: `Rolling to randomly pick one of the ${numButtons} available effects to apply for ${activity ? activity.name : item.name}` });
 		timeout = 1500;
 		result = game.dice3d ? roll.total : roll.total - 1;
 	}
 	const buttonToClick = buttons[result];
-	buttonToClick.style.outline = "3px solid orange";
-	buttonToClick.style.transition = "outline 0.3s ease-in-out"
+	buttonToClick.style.outline = '3px solid orange';
+	buttonToClick.style.transition = 'outline 0.3s ease-in-out';
 	console.log(`Auto-selecting button #${result + 1} in 1 second...`);
 	//should add a nice chat message too or something that makes sense. Maybe update the Item's chat card with the roll data
 	setTimeout(() => {
-		 buttonToClick.click();
+		buttonToClick.click();
 	}, timeout);
 }
 
@@ -486,6 +481,14 @@ function registerSettings() {
 		default: true,
 		type: Boolean,
 	});
+	game.settings.register('bugs', 'autoUpdateHombrewItems', {
+		name: 'BUGS.automateChooseEffects.name',
+		hint: 'BUGS.automateChooseEffects.hint',
+		scope: 'world',
+		config: true,
+		default: true,
+		type: Boolean,
+	});
 }
 
 function getAutomateStatusesFlags() {
@@ -496,5 +499,79 @@ function getAutomateChooseEffects() {
 	return game.settings.get('bugs', 'automateChooseEffects');
 }
 
+function autoUpdateHombrewItems() {
+	return game.settings.get('bugs', 'autoUpdateHombrewItems');
+}
+
 //other Hooks
 Hooks.once('init', registerSettings);
+Hooks.on('dnd5e.advancementManagerComplete', advanceHomebrew);
+
+async function advanceHomebrew(manager) {
+	if (!autoUpdateHombrewItems()) return true;
+	const level = manager.steps.findLast(Boolean).level;
+	const actor = manager.actor;
+	const identifiers = {
+		bloodfang: {
+			6: 'Compendium.bugs.bugs-alindrena.Item.NgnUdXtluXtOvMh7',
+			7: 'Compendium.bugs.bugs-alindrena.Item.1Lbu1mG4AlHsWApb',
+			9: 'Compendium.bugs.bugs-alindrena.Item.8CfBI2WjZt4ySGjV',
+			11: 'Compendium.bugs.bugs-alindrena.Item.y84d6wapGpqvhGc1',
+		},
+		['echo-of-calamity']: {
+			6: 'Compendium.bugs.bugs-alindrena.Item.SnvvKJBET7BZRuw4',
+			7: 'Compendium.bugs.bugs-alindrena.Item.BOJSnSYq0YYFCTsu',
+			9: 'Compendium.bugs.bugs-alindrena.Item.uoeelqj3qFywjqhk',
+			11: 'Compendium.bugs.bugs-alindrena.Item.eXnhz72r44Q14GLG',
+		},
+		['mantle-of-the-starforged-herald']: {
+			6: 'Compendium.bugs.bugs-alindrena.Item.6dlh9UHmKscEe4x3',
+			7: 'Compendium.bugs.bugs-alindrena.Item.eTph7GMEqexehaFS',
+			9: 'Compendium.bugs.bugs-alindrena.Item.ABKNp4eJne3ydfRv',
+			11: 'Compendium.bugs.bugs-alindrena.Item.sodqfOn6POjTUJrc',
+		},
+		['mask-of-the-drowned-voice']: {
+			6: 'Compendium.bugs.bugs-alindrena.Item.xbQnecpWSW7jWKFI',
+			7: 'Compendium.bugs.bugs-alindrena.Item.Y40imydYLhqjge0E',
+			9: 'Compendium.bugs.bugs-alindrena.Item.NvTKRyscm6KP6pME',
+			11: 'Compendium.bugs.bugs-alindrena.Item.2GANfPoFy57yfXqR',
+		},
+		['the-teeth-of-the-worldshell']: {
+			6: 'Compendium.bugs.bugs-alindrena.Item.Ia2i7LNVc0HGoojT',
+			7: 'Compendium.bugs.bugs-alindrena.Item.MWVYcsPEn6dpvCIe',
+			9: 'Compendium.bugs.bugs-alindrena.Item.gWMX863RZhaU1Prf',
+			11: 'Compendium.bugs.bugs-alindrena.Item.NaekvPVY7nTfImfn',
+		},
+		venomcoin: {
+			6: 'Compendium.bugs.bugs-alindrena.Item.rmn2dUNN80oNs5dJ',
+			7: 'Compendium.bugs.bugs-alindrena.Item.3UBUTJ7E1bnTScNt',
+			9: 'Compendium.bugs.bugs-alindrena.Item.8LVhzis06PJt8Q7w',
+			11: 'Compendium.bugs.bugs-alindrena.Item.YKDlGs5KwLR3Mo8G',
+		},
+		['whisperfang-the-returning-wind']: {
+			6: 'Compendium.bugs.bugs-alindrena.Item.RcBy9HFKFI7rYsTU',
+			7: 'Compendium.bugs.bugs-alindrena.Item.rsMTd3Sifi9RcLJz',
+			9: 'Compendium.bugs.bugs-alindrena.Item.d2rp5bldXvG4hmSp',
+			11: 'Compendium.bugs.bugs-alindrena.Item.zPYYKAxbgRvSxsuC',
+		},
+	};
+	const levelIdentifier = level >= 11 ? '-11' : level >= 9 ? '-9' : level >= 7 ? '-7' : '';
+	const levelAdditions = level >= 11 ? '11' : level >= 9 ? '9' : level >= 7 ? '7' : '6';
+	const relevantItems = actor.items.filter((i) => {
+		return Object.keys(identifiers).some((id) => i.identifier?.toLowerCase().includes(id));
+	});
+	const relevantItemsBareIds = relevantItems.map((i) => Object.keys(identifiers).find((id) => i.identifier?.toLowerCase().includes(id)));
+	const needUpdate = relevantItems.filter((i) => (!!levelIdentifier ? !i.identifier.includes(levelIdentifier) : !!Number(i.identifier.at(-1))));
+	const needDeletion = needUpdate.map((i) => i.id);
+	const needUpdateUuids = needUpdate.map((i) => identifiers[relevantItemsBareIds.find((id) => i.identifier.includes(id))][levelAdditions]);
+	await actor.deleteEmbeddedDocuments('Item', needDeletion);
+	const toCreate = [];
+	for (const uuid of needUpdateUuids) {
+		const compendiumItem = await fromUuid(uuid);
+		const itemData = game.items.fromCompendium(compendiumItem);
+		itemData.name = itemData.name.split('-')[0];
+		toCreate.push(itemData);
+	}
+	const newItems = await actor.createEmbeddedDocuments('Item', toCreate);
+	console.warn('BUGS updates on Items', { updated: newItems.map((i) => i.name) });
+}
