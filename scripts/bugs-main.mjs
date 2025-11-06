@@ -452,7 +452,7 @@ async function implementAutoMidiChooseEffects(app, html, data) {
 		const roll = new Roll(formula);
 		await roll.toMessage({ flavor: `Rolling to randomly pick one of the ${numButtons} available effects to apply for ${activity ? activity.name : item.name}` });
 		timeout = 1500;
-		result = game.dice3d ? roll.total : roll.total - 1;
+		result = game.dice3d && numButtons === 2 ? roll.total : roll.total - 1;
 	}
 	const buttonToClick = buttons[result];
 	buttonToClick.style.outline = '3px solid orange';
