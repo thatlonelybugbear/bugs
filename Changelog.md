@@ -1,3 +1,7 @@
+## v13.5110.1
+* Fix for `[autoMidiChooseEffects]` buttons when Dice So Nice is active
+* Compatibility bump for d#d5e v5.1.10
+
 ## v13.519.3.1
 * Translation fixes
 
