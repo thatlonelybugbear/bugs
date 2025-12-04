@@ -1,3 +1,6 @@
+## v13.5201.1
+* Compatibility bump for d&d5e v5.2.1
+
 ## v13.5110.1
 * Fix for `[autoMidiChooseEffects]` buttons when Dice So Nice is active
 * Compatibility bump for d&d5e v5.1.10
