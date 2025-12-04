@@ -8,6 +8,10 @@
     "automateStatusesFlags": {
       "name": "Aggiungere flag MidiQOL sugli stati",
       "hint": "Gestisce l'aggiunta di tutti i flag MidiQOL adatti sugli stati di sistema e cerca di automatizzare quelli specifici come Affascinato"
+    },
+    "automateHomebrewAdvancement": {
+      "name": "Avanzamento elementi homebrew",
+      "hint": "Gestisce l'aggiornamento automatico degli elementi rilevanti quando i personaggi salgono o scendono di livello"
     }
   }
 }
