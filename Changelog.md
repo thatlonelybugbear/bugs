@@ -1,3 +1,7 @@
+## v13.5250.1
+* Compatibility bump for d&d5e v5.2.5
+* Change to `MidiQOL.checkDistance()`
+
 ## v13.5201.1
 * Compatibility bump for d&d5e v5.2.1
 
