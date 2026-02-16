@@ -226,12 +226,12 @@ function initializeStatusEffects() {
 			{
 				key: 'flags.midi-qol.grants.advantage.attack.all',
 				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: 'getDistance(tokenUuid,targetUuid) <= 5',
+				value: 'checkDistance(tokenUuid,targetUuid,5)',
 			},
 			{
 				key: 'flags.midi-qol.grants.disadvantage.attack.all',
 				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				value: 'getDistance(tokenUuid,targetUuid) > 5',
+				value: '!checkDistance(tokenUuid,targetUuid,5)',
 			},
 			{
 				key: 'flags.midi-qol.disadvantage.attack.all',
