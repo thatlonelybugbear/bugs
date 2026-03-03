@@ -31,7 +31,6 @@ For now it will:
 - `Cauldron of Plentiful Resources`: Use either the statuses automation of AC5e or the CPR + MidiQOL flags integration.
 - `Rest Recovery`: Provides exhaustion automation (when that setting is enabled it will take priority; NEEDS to reload Foundry if you change any relevant settings in RR).
 - `Alternative Exhaustion 5e`: If that module is active, it will handle all the exhaustion effects and no MidiQOL flags will be added.
-- v12.438.1+ needs D&D5e 4.3.x
 
 <hr>
 If you like what I do, consider supporting this lonely bugbear 🐾
