@@ -1,3 +1,7 @@
+## 13.5310.1
+* Compatibility bump for D&D5e v5.3.1
+* Small fix for case sensitive `packFolders` in `module.json`
+
 ## v13.5300.1
 * Compatibility bump for d&d5e v5.3.0
 
